@@ -1,0 +1,8 @@
+ /**
+ * Bluetooth
+ */
+#define BLUETOOTH_IN  2
+#define BLUETOOTH_OUT 3
+
+#define BLUETOOTH_EEPROM_LOCATION 1
+#define BLUETOOTH_EEPROM_LENGTH   32
