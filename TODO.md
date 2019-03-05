@@ -1,4 +1,4 @@
-| Wat                 | Wie    |
+﻿| Wat                 | Wie    |
 | ------------------- | ------ |
 | Snelheidsmeter      | Arne   |
 | Balletjesmeter      |        |
@@ -6,7 +6,7 @@
 | Bediening           | Thomas |
 | Bluetooth           | David  |
 | Feedback            |        |
-| Trainingsprogrammas |        |
+| Trainingsprogrammas | Thomas |
 | PCB                 | Arne   |
 | Circuit             | Arne   |
 | MOSFET              | Arne   |
