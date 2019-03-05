@@ -24,6 +24,17 @@ namespace Bluetooth {
   void (*callbacks[256])(char *data, size_t len);
 
 
+  void _receiveHandler() {
+    unsigned char  id  = hc06.read();
+    unsigned short len = (hc06.read() << 8) + hc06.read();
+    char data[len];
+    for (size_t i = 0; i < len; i++)
+      data[i] = hc06.read();
+    if (callbacks[id] != NULL)
+      callbacks[id](data, len);
+  }
+
+  
   void init() {
     hc06.begin(9600);
     
@@ -88,17 +99,6 @@ namespace Bluetooth {
       if (name[i] == 0)
         break;
     }
-    EEPROM.write(i, 0);
-  }
-
-
-  void _receiveHandler() {
-    char id = hc06.read();
-    unsigned short len = (hc06.read() << 8) + hc06.read();
-    char data[len];
-    for (size_t i = 0; i < len; i++)
-      data[i] = hc06.read();
-    if (callbacks[id] != null)
-      callbacks[id](data, len);
+    EEPROM.write(NAME_LOCATION + i, 0);
   }
 }
