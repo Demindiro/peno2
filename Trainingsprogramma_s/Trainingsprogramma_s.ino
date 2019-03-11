@@ -40,7 +40,7 @@ class Trainingsprogrammas{
       setFireSpeed(MOTOR_L, POWER_V);
             
       if(SERVO_H.read()!=ANGLE_LV){
-        SERVO_H.write(ANGLE_LV);
+        SERVO_H.writeMicroseconds(ANGLE_LV);
         delay(SERVO_TURN_LIMIT);
       }else{
         delay(ONBEPAALD); //tijd nodig voordat de motoren op toerental zijn
@@ -57,7 +57,7 @@ class Trainingsprogrammas{
       setFireSpeed(MOTOR_L, POWER_A);
       
       if(SERVO_H.read()!=ANGLE_LA){
-        SERVO_H.write(ANGLE_LA);
+        SERVO_H.writeMicroseconds(ANGLE_LA);
         delay(SERVO_TURN_LIMIT);
       }else{
         delay(ONBEPAALD); //tijd nodig voordat de motoren op toerental zijn
@@ -75,7 +75,7 @@ class Trainingsprogrammas{
       setFireSpeed(MOTOR_L, POWER_V); 
            
       if(SERVO_H.read()!=ANGLE_RV){
-        SERVO_H.write(ANGLE_RV);
+        SERVO_H.writeMicroseconds(ANGLE_RV);
         delay(SERVO_TURN_LIMIT);
       }else{
         delay(ONBEPAALD); //tijd nodig voordat de motoren op toerental zijn 
@@ -92,7 +92,7 @@ class Trainingsprogrammas{
       setFireSpeed(MOTOR_L, POWER_A);
       
       if(SERVO_H.read()!=ANGLE_RA){
-        SERVO_H.write(ANGLE_RA);
+        SERVO_H.writeMicroseconds(ANGLE_RA);
         delay(SERVO_TURN_LIMIT);
       }else{
         delay(ONBEPAALD); //tijd nodig voordat de motoren op toerental zijn
@@ -146,11 +146,11 @@ class Trainingsprogrammas{
        */
       void setFireSpeed(int motor, int snelheid){
         if(0<=snelheid<=255){
-          analogWrite(motor, snelheid);
+          analogwriteMicroseconds(motor, snelheid);
         }else if(snelheid<=0){
-          analogWrite(motor, 0);
+          analogwriteMicroseconds(motor, 0);
         }else if(255<=snelheid){
-          analogWrite(motor, 255);
+          analogwriteMicroseconds(motor, 255);
         }
       }
 
@@ -160,9 +160,9 @@ class Trainingsprogrammas{
        *  - snelheid: Tijd tussen ballen (TRAAG, GEMIDDELD, SNEL)
        */
       void feedBall(Servo servo, int snelheid){
-          servo.write(FEED_UP);
+          servo.writeMicroseconds(FEED_UP);
           delay(SERVO_TURN_LIMIT);       
-          servo.write(FEED_LO);
+          servo.writeMicroseconds(FEED_LO);
           delay(SERVO_TURN_LIMIT);
           delay(snelheid);
 
@@ -172,8 +172,8 @@ class Trainingsprogrammas{
 
 void setup() {
     //bevestig de twee servos aan de arduino pinnen
-  SERVO_H.attach(SERVO_1, 1000, 2000);
-  SERVO_FEED.attach(SERVO_2, 1000, 2000);
+  SERVO_H.attach(SERVO_1, 700, 2000);
+  SERVO_FEED.attach(SERVO_2, 700, 2000);
   pinMode(MOTOR_U, OUTPUT);
   pinMode(MOTOR_L, OUTPUT);
   randomSeed(analogRead(EMPTY_ANALOG));
