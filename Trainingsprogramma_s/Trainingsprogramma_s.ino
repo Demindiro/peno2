@@ -1,21 +1,37 @@
-const int ONBEPAALD;  //plaatsvervanger voor waarden die nog ingevuld moeten worden
 /*
  * Trainingsprogrammas voor de PPP.
  *  Methods linksVoor(), rechtsVoor(), linksAchter() en rechtsAchter().
- *  Alle posities zijn gegeven vanuit het standpunt van de PPP.
- *   
+ *  Alle posities zijn gegeven vanuit het standpunt van de PPP. 
  */
- 
+
 #include <Servo.h>  //importeer de servo class
 
-Servo SERVO_H; //maak een horizontaal servo object
-Servo SERVO_FEED; //maak een servo object dat ballen aanvoert
+int none;
+/*
+ * *************************************DEFINITIE VAN WAARDEN****************************************
+ */
+#define PIN_SERVO_HORIZONTAL_ANGLE none
+#define PIN_SERVO_FEED none
+#define PIN_MOTOR_UPPER none
+#define PIN_MOTOR_LOWER none
+#define PIN_EMPTY_ANALOG none
 
-const int EMPTY_ANALOG = ONBEPAALD; //Zet een ongebruikte analoge pin
-const int SERVO_1 = ONBEPAALD;  //Zet SERVO_H op een pin
-const int SERVO_2 = ONBEPAALD;  //Zet SERVO_FEED op een pin
-const int MOTOR_U = ONBEPAALD;  //zet de bovenmotor op een pin
-const int MOTOR_L = ONBEPAALD;  //zet de ondermotor op een pin
+#define MOTOR_SPINUP none  // tijd voordat de motoren op toerental zijn
+#define SERVO_TURN_LIMIT 340  // tijd voordat de servo op positie staat
+#define POWER_VOORAAN none
+#define POWER_ACHTERAAN none
+#define ANGLE_LV none  // hoek om linksvoor te spelen
+#define ANGLE_LA none  // hoek om linksachter te spelen
+#define ANGLE_RV none  // hoek om rechtsvoor te spelen
+#define ANGLE_RA none  // hoek om rechtsachter te spelen
+#define FEED_LO none // SERVO_FEED open stand
+#define FEED_UP none // SERVO_FEED gesloten stand
+/*
+ * **************************************************************************************************
+ */
+Servo SERVO_HORIZONTAL_ANGLE; //maak een servo-object voor de servo die de hoek bestuurt
+Servo SERVO_FEED; //maak een servo-object voor de servo die de ballen aanvoert
+
   //schietsnelheid (milliseconden)
 const int TRAAG = 4000;
 const int GEMIDDELD = 3000;
@@ -30,20 +46,20 @@ class Trainingsprogrammas{
   public:
 
     /*
-     * linksvoor(), linksAchter(), rechtsVoor(), rechtsAchter() en willekeurig:
+     * linksvoor(), linksAchter(), rechtsVoor(), rechtsAchter() en willekeurig():
      *  - aantal: Aantal af te vuren ballen
-     *  - snelheid: Snelheid waarmee de ballen aangevoerd worden
+     *  - snelheid: Snelheid van opeenvolgende ballen
      */
     void linksVoor(int aantal = 1, int snelheid = TRAAG){
       
-      setFireSpeed(MOTOR_U, POWER_V);
-      setFireSpeed(MOTOR_L, POWER_V);
+      setFireSpeed(PIN_MOTOR_UPPER, POWER_VOORAAN);
+      setFireSpeed(PIN_MOTOR_LOWER, POWER_VOORAAN);
             
-      if(SERVO_H.read()!=ANGLE_LV){
-        SERVO_H.writeMicroseconds(ANGLE_LV);
+      if(SERVO_HORIZONTAL_ANGLE.read()!=ANGLE_LV){
+        SERVO_HORIZONTAL_ANGLE.writeMicroseconds(ANGLE_LV);
         delay(SERVO_TURN_LIMIT);
       }else{
-        delay(ONBEPAALD); //tijd nodig voordat de motoren op toerental zijn
+        delay(MOTOR_SPINUP); //tijd nodig voordat de motoren op toerental zijn
       }
       
       for(int i; i<aantal; i++){
@@ -53,14 +69,14 @@ class Trainingsprogrammas{
   
     void linksAchter(int aantal = 1, int snelheid = TRAAG){
 
-      setFireSpeed(MOTOR_U, POWER_A);
-      setFireSpeed(MOTOR_L, POWER_A);
+      setFireSpeed(PIN_MOTOR_UPPER, POWER_ACHTERAAN);
+      setFireSpeed(PIN_MOTOR_LOWER, POWER_ACHTERAAN);
       
-      if(SERVO_H.read()!=ANGLE_LA){
-        SERVO_H.writeMicroseconds(ANGLE_LA);
+      if(SERVO_HORIZONTAL_ANGLE.read()!=ANGLE_LA){
+        SERVO_HORIZONTAL_ANGLE.writeMicroseconds(ANGLE_LA);
         delay(SERVO_TURN_LIMIT);
       }else{
-        delay(ONBEPAALD); //tijd nodig voordat de motoren op toerental zijn
+        delay(MOTOR_SPINUP); //tijd nodig voordat de motoren op toerental zijn
       }
 
       
@@ -71,14 +87,14 @@ class Trainingsprogrammas{
   
     void rechtsVoor(int aantal = 1, int snelheid = TRAAG){
       
-      setFireSpeed(MOTOR_U, POWER_V);
-      setFireSpeed(MOTOR_L, POWER_V); 
+      setFireSpeed(PIN_MOTOR_UPPER, POWER_VOORAAN);
+      setFireSpeed(PIN_MOTOR_LOWER, POWER_VOORAAN); 
            
-      if(SERVO_H.read()!=ANGLE_RV){
-        SERVO_H.writeMicroseconds(ANGLE_RV);
+      if(SERVO_HORIZONTAL_ANGLE.read()!=ANGLE_RV){
+        SERVO_HORIZONTAL_ANGLE.writeMicroseconds(ANGLE_RV);
         delay(SERVO_TURN_LIMIT);
       }else{
-        delay(ONBEPAALD); //tijd nodig voordat de motoren op toerental zijn 
+        delay(MOTOR_SPINUP); //tijd nodig voordat de motoren op toerental zijn 
       }
            
       for(int i; i<aantal; i++){
@@ -88,14 +104,14 @@ class Trainingsprogrammas{
   
     void rechtsAchter(int aantal = 1, int snelheid = TRAAG){
 
-      setFireSpeed(MOTOR_U, POWER_A);
-      setFireSpeed(MOTOR_L, POWER_A);
+      setFireSpeed(PIN_MOTOR_UPPER, POWER_ACHTERAAN);
+      setFireSpeed(PIN_MOTOR_LOWER, POWER_ACHTERAAN);
       
-      if(SERVO_H.read()!=ANGLE_RA){
-        SERVO_H.writeMicroseconds(ANGLE_RA);
+      if(SERVO_HORIZONTAL_ANGLE.read()!=ANGLE_RA){
+        SERVO_HORIZONTAL_ANGLE.writeMicroseconds(ANGLE_RA);
         delay(SERVO_TURN_LIMIT);
       }else{
-        delay(ONBEPAALD); //tijd nodig voordat de motoren op toerental zijn
+        delay(MOTOR_SPINUP); //tijd nodig voordat de motoren op toerental zijn
       }
       
       for(int i; i<aantal; i++){
@@ -123,22 +139,29 @@ class Trainingsprogrammas{
         }
       }
     }
+
+    void linksRechts(int aantal = 1, int snelheid = TRAAG){
+      for(int i; i<=aantal; i++){
+        switch(random(1,3)){
+          case 1:
+            linksVoor(snelheid = snelheid);
+          case 2:
+            linksAchter(snelheid = snelheid);
+          default:
+            linksVoor(snelheid = snelheid);
+        }
+        switch(random(1,3)){
+          case 1:
+            rechtsVoor(snelheid = snelheid);
+          case 2:
+            rechtsAchter(snelheid = snelheid);
+          default:
+            rechtsVoor(snelheid = snelheid);
+        }
+      }
+    }
           
     private:
-
-      const int SERVO_TURN_LIMIT = 340; //draaisnelheid van de servo
-        //aanvoerservo onder- en bovenlimiet (graden)
-      const int FEED_LO = ONBEPAALD;
-      const int FEED_UP = ONBEPAALD;
-        //horizontale servo hoek (graden)(linksvoor, linksachter, rechtsvoor, rechtsachter)
-      const int ANGLE_LV = map(ONBEPAALD, -60, 60, 0, 180);
-      const int ANGLE_LA = map(ONBEPAALD, -60, 60, 0, 180);
-      const int ANGLE_RV = map(ONBEPAALD, -60, 60, 0, 180);
-      const int ANGLE_RA = map(ONBEPAALD, -60, 60, 0, 180);
-        //afschietsnelheid (0-255)(vooraan, achteraan)
-      const int POWER_V = ONBEPAALD;
-      const int POWER_A = ONBEPAALD;
-
       /*
        * setFireSpeed:
        *  - motor: Kies een motor waarvan de snelheid aangepast moet worden
@@ -146,11 +169,11 @@ class Trainingsprogrammas{
        */
       void setFireSpeed(int motor, int snelheid){
         if(0<=snelheid<=255){
-          analogwriteMicroseconds(motor, snelheid);
+          analogWrite(motor, snelheid);
         }else if(snelheid<=0){
-          analogwriteMicroseconds(motor, 0);
+          analogWrite(motor, 0);
         }else if(255<=snelheid){
-          analogwriteMicroseconds(motor, 255);
+          analogWrite(motor, 255);
         }
       }
 
@@ -171,12 +194,11 @@ class Trainingsprogrammas{
 
 
 void setup() {
-    //bevestig de twee servos aan de arduino pinnen
-  SERVO_H.attach(SERVO_1, 700, 2000);
-  SERVO_FEED.attach(SERVO_2, 700, 2000);
-  pinMode(MOTOR_U, OUTPUT);
-  pinMode(MOTOR_L, OUTPUT);
-  randomSeed(analogRead(EMPTY_ANALOG));
+  SERVO_HORIZONTAL_ANGLE.attach(PIN_SERVO_HORIZONTAL_ANGLE, 700, 2000);
+  SERVO_FEED.attach(PIN_SERVO_FEED, 700, 2000);
+  pinMode(PIN_MOTOR_UPPER, OUTPUT);
+  pinMode(PIN_MOTOR_LOWER, OUTPUT);
+  randomSeed(analogRead(PIN_EMPTY_ANALOG));
   }
   
 void loop() {
@@ -185,4 +207,5 @@ void loop() {
   control.rechtsVoor();
   control.linksAchter();
   control.rechtsAchter();
+  control.willekeurig();
   }
