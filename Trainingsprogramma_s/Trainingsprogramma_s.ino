@@ -1,10 +1,20 @@
 /*
+ * TO-DO's:
+ *  - een waarde per servo die aangeeft of de servo al juiststaat
+ *  - overbodige code verwijderen van de servos
+ */
+    
+    
+    
+    // Importeer de software PWM library
+#include <PWMSoft.h>
+#include <SoftPWM_timer.h>
+
+/*
  * Trainingsprogrammas voor de PPP.
  *  Methods linksVoor(), rechtsVoor(), linksAchter() en rechtsAchter().
  *  Alle posities zijn gegeven vanuit het standpunt van de PPP. 
  */
-
-#include <Servo.h>  //importeer de servo class
 
 int none;
 /*
@@ -29,8 +39,8 @@ int none;
 /*
  * **************************************************************************************************
  */
-Servo SERVO_HORIZONTAL_ANGLE; //maak een servo-object voor de servo die de hoek bestuurt
-Servo SERVO_FEED; //maak een servo-object voor de servo die de ballen aanvoert
+int SERVO_HORIZONTAL_ANGLE; //maak een servo-object voor de servo die de hoek bestuurt
+int SERVO_FEED; //maak een servo-object voor de servo die de ballen aanvoert
 
   //schietsnelheid (milliseconden)
 const int TRAAG = 4000;
@@ -43,8 +53,8 @@ const int SNEL = 2000;
  *  - willekeurig()
  */
 class Trainingsprogrammas{
-  public:
-
+    public:
+    
     /*
      * linksvoor(), linksAchter(), rechtsVoor(), rechtsAchter() en willekeurig():
      *  - aantal: Aantal af te vuren ballen
@@ -55,70 +65,78 @@ class Trainingsprogrammas{
       setFireSpeed(PIN_MOTOR_UPPER, POWER_VOORAAN);
       setFireSpeed(PIN_MOTOR_LOWER, POWER_VOORAAN);
             
-      if(SERVO_HORIZONTAL_ANGLE.read()!=ANGLE_LV){
-        SERVO_HORIZONTAL_ANGLE.writeMicroseconds(ANGLE_LV);
-        delay(SERVO_TURN_LIMIT);
-      }else{
-        delay(MOTOR_SPINUP); //tijd nodig voordat de motoren op toerental zijn
-      }
+//      if(SERVO_HORIZONTAL_ANGLE.read()!=ANGLE_LV){
+//        SERVO_HORIZONTAL_ANGLE.writeMicroseconds(ANGLE_LV);
+//        delay(SERVO_TURN_LIMIT);
+//      }else{
+//        delay(MOTOR_SPINUP); //tijd nodig voordat de motoren op toerental zijn
+//      }
+      setServo(SERVO_HORIZONTAL_ANGLE, ANGLE_LV);
+      delay(SERVO_TURN_LIMIT);
       
       for(int i; i<aantal; i++){
         feedBall(SERVO_FEED, snelheid);
       }
     }
-  
+    
     void linksAchter(int aantal = 1, int snelheid = TRAAG){
-
+    
       setFireSpeed(PIN_MOTOR_UPPER, POWER_ACHTERAAN);
       setFireSpeed(PIN_MOTOR_LOWER, POWER_ACHTERAAN);
       
-      if(SERVO_HORIZONTAL_ANGLE.read()!=ANGLE_LA){
-        SERVO_HORIZONTAL_ANGLE.writeMicroseconds(ANGLE_LA);
-        delay(SERVO_TURN_LIMIT);
-      }else{
-        delay(MOTOR_SPINUP); //tijd nodig voordat de motoren op toerental zijn
-      }
-
+//      if(SERVO_HORIZONTAL_ANGLE.read()!=ANGLE_LA){
+//        SERVO_HORIZONTAL_ANGLE.writeMicroseconds(ANGLE_LA);
+//        delay(SERVO_TURN_LIMIT);
+//      }else{
+//        delay(MOTOR_SPINUP); //tijd nodig voordat de motoren op toerental zijn
+//      }
+      setServo(SERVO_HORIZONTAL_ANGLE, ANGLE_LA);
+      delay(SERVO_TURN_LIMIT);      
       
       for(int i; i<aantal; i++){
         feedBall(SERVO_FEED, snelheid);
       }
     }
-  
+    
     void rechtsVoor(int aantal = 1, int snelheid = TRAAG){
       
       setFireSpeed(PIN_MOTOR_UPPER, POWER_VOORAAN);
       setFireSpeed(PIN_MOTOR_LOWER, POWER_VOORAAN); 
            
-      if(SERVO_HORIZONTAL_ANGLE.read()!=ANGLE_RV){
-        SERVO_HORIZONTAL_ANGLE.writeMicroseconds(ANGLE_RV);
-        delay(SERVO_TURN_LIMIT);
-      }else{
-        delay(MOTOR_SPINUP); //tijd nodig voordat de motoren op toerental zijn 
-      }
+//      if(SERVO_HORIZONTAL_ANGLE.read()!=ANGLE_RV){
+//        SERVO_HORIZONTAL_ANGLE.writeMicroseconds(ANGLE_RV);
+//        delay(SERVO_TURN_LIMIT);
+//      }else{
+//        delay(MOTOR_SPINUP); //tijd nodig voordat de motoren op toerental zijn 
+//      }
+      setServo(SERVO_HORIZONTAL_ANGLE, ANGLE_RV);
+      delay(SERVO_TURN_LIMIT);  
            
       for(int i; i<aantal; i++){
         feedBall(SERVO_FEED, snelheid);
       }
     }
-  
+    
     void rechtsAchter(int aantal = 1, int snelheid = TRAAG){
-
+    
       setFireSpeed(PIN_MOTOR_UPPER, POWER_ACHTERAAN);
       setFireSpeed(PIN_MOTOR_LOWER, POWER_ACHTERAAN);
       
-      if(SERVO_HORIZONTAL_ANGLE.read()!=ANGLE_RA){
-        SERVO_HORIZONTAL_ANGLE.writeMicroseconds(ANGLE_RA);
-        delay(SERVO_TURN_LIMIT);
-      }else{
-        delay(MOTOR_SPINUP); //tijd nodig voordat de motoren op toerental zijn
-      }
+//      if(SERVO_HORIZONTAL_ANGLE.read()!=ANGLE_RA){
+//        SERVO_HORIZONTAL_ANGLE.writeMicroseconds(ANGLE_RA);
+//        delay(SERVO_TURN_LIMIT);
+//      }else{
+//        delay(MOTOR_SPINUP); //tijd nodig voordat de motoren op toerental zijn
+//      }
+
+      setServo(SERVO_HORIZONTAL_ANGLE, ANGLE_RA);
+      delay(SERVO_TURN_LIMIT);
       
       for(int i; i<aantal; i++){
         feedBall(SERVO_FEED, snelheid);
       }
     }
-
+    
     void willekeurig(int aantal = 1, int snelheid = TRAAG){
       for(int i; i<=aantal; i++){
         switch(random(1,5)){
@@ -139,7 +157,7 @@ class Trainingsprogrammas{
         }
       }
     }
-
+    
     void linksRechts(int aantal = 1, int snelheid = TRAAG){
       for(int i; i<=aantal; i++){
         switch(random(1,3)){
@@ -176,26 +194,39 @@ class Trainingsprogrammas{
           analogWrite(motor, 255);
         }
       }
-
+    
       /*
        * feedBall:
        *  - servo: Kies de servo
        *  - snelheid: Tijd tussen ballen (TRAAG, GEMIDDELD, SNEL)
        */
-      void feedBall(Servo servo, int snelheid){
-          servo.writeMicroseconds(FEED_UP);
+      void feedBall(int servo, int snelheid){
+          setServo(servo, FEED_UP);
           delay(SERVO_TURN_LIMIT);       
-          servo.writeMicroseconds(FEED_LO);
+          setServo(servo, FEED_LO);
           delay(SERVO_TURN_LIMIT);
           delay(snelheid);
-
+    
+      }
+      
+        /*
+         * setServo:
+         *  - servo: Kies de servo
+         *  - angle: Kies de hoek (van 7 tot en met 38)
+         */
+      void setServo(int servo, int angle){
+        if(***servo nog niet juist*** && 7<=angle<=38){
+            softPWMSet(servo, angle);
+        }else if(***servo nog niet juist*** && angle<7){
+            softPWMSet(servo, 7);
+        }else if(***servo nog niet juist*** && 38<angle){
+            softPWMSet(servo, 38);
+        }
       }
  };
 
 
 void setup() {
-  SERVO_HORIZONTAL_ANGLE.attach(PIN_SERVO_HORIZONTAL_ANGLE, 700, 2000);
-  SERVO_FEED.attach(PIN_SERVO_FEED, 700, 2000);
   pinMode(PIN_MOTOR_UPPER, OUTPUT);
   pinMode(PIN_MOTOR_LOWER, OUTPUT);
   randomSeed(analogRead(PIN_EMPTY_ANALOG));
