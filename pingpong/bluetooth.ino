@@ -26,50 +26,38 @@ namespace Bluetooth {
   void (*callbacks[BLUETOOTH_CALLBACKS_LEN])(char *data, unsigned len);
 
 
-  // Receive handler
-  // See https://www.teachmemicro.com/arduino-timer-interrupt-tutorial/ for the magic
-  unsigned char _poll_id    = 0xFF;
-  unsigned char _poll_len   = 0;
-  unsigned char _poll_index = 0;
-  unsigned char _timeout_counter = 0;
-  char _poll_data[256];
-  ISR(TIMER2_OVF_vect) {
-    // Is sufficient info available to start receiving data?
-    if (_poll_id == 0xFF && hc06.available() >= 2) {
-      _poll_id  = hc06.read();
-      _poll_len = hc06.read();
+  void checkForMessage(int timeout) {
+    if (!hc06.available())
+      return false;
+
+    unsigned char id    = hc06.read();
+    unsigned char len   = hc06.read();
+    unsigned char index = 0;
+    char buf[len];
+    int lastRcvTime = micros();
+
+    if (callbacks[id] == NULL) {
+      send("UNDEFINED", sizeof("UNDEFINED") - 1);
+      return;
     }
-    // Are we currently receiving data for a command?
-    if (_poll_id != 0xFF) {
-      // Are we still reading data?
-      if (_poll_index < _poll_len) {
-        if (!hc06.available()) {
-          _timeout_counter++;
-          // Prevent being stuck in a loop without ever receiving enough data
-          // 32 * 30 = 960ms ~ 1 second, which should be plenty
-          if (_timeout_counter > 30) {
-            send("TIMEOUT", sizeof("TIMEOUT") - 1);
-            _poll_id = 0xFF;
-          }
-        } else {
-          while (hc06.available()) {
-            _poll_data[_poll_index] = hc06.read();
-            Serial.write(_poll_data[_poll_index]);
-            _poll_index++;
-            _timeout_counter = 0;
-          }
+
+    while (index < len) {
+      if (!hc06.available()) {
+        // Prevent being stuck in a loop without ever receiving enough data
+        if (micros() - lastRcvTime < timeout) {
+          send("TIMEOUT", sizeof("TIMEOUT") - 1);
+          return;
         }
-      // Execute the command
       } else {
-        if (callbacks[_poll_id] != NULL) {
-          callbacks[_poll_id](_poll_data, _poll_len);
-          _poll_index = 0;
-          _poll_id    = 0xFF;
-        } else {
-          send("UNDEFINED", sizeof("UNDEFINED") - 1);
+        lastRcvTime = micros();
+        while (hc06.available()) {
+          buf[index] = hc06.read();
+          index++;
         }
       }
     }
+    
+    callbacks[id](buf, len);
   }
 
   
@@ -100,10 +88,6 @@ namespace Bluetooth {
       hc06.write(name, strlen(name));
     }
     hc06.write("AT+NAMEquack");
-  
-    // Set the Timer2 interrupt to poll incoming data
-    TCCR2B = (TCCR2B & B11111000) | 0x03; // Divide by 32 --> 32ms between calls
-    TIMSK2 = (TIMSK2 & B11111110) | 0x01; // Enable Timer2 overflow
   }
 
 
@@ -115,6 +99,14 @@ namespace Bluetooth {
   void send(char *data, unsigned char len) {
     hc06.write(len);
     hc06.write(data, len);
+  }
+
+
+  void listen(int timeout) {
+    unsigned long t = millis();
+    while (millis() - t < timeout) {
+      
+    }
   }
 
 

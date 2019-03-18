@@ -25,6 +25,12 @@ namespace Bluetooth {
   void send(char *data, unsigned char len);
 
 
+   /**
+    * We can't use a timer :D /s
+    */
+   void listen(int timeout);
+
+
   /**
    * Configuration
    * 
