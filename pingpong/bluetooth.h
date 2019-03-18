@@ -11,7 +11,7 @@ namespace Bluetooth {
 
   void init();
 
-  void setCallback(char id, void (*callback)(char *data, size_t len));
+  void setCallback(char id, void (*callback)(char *data, unsigned char len));
 
   void isModuleConnected();
 
@@ -22,11 +22,7 @@ namespace Bluetooth {
    
   bool isConnected();
 
-  void send(char *data, size_t len);
-
-  void listenOnce();
-
-  void listenOnce(int ms);
+  void send(char *data, unsigned char len);
 
 
   /**
