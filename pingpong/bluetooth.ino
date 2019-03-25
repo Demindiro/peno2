@@ -6,9 +6,14 @@
  */
 
 
-#include <SoftwareSerial.h>
+#include <AltSoftSerial.h>
 #include <EEPROM.h>
 #include "config.h"
+
+
+#if BLUETOOTH_RX != 8 || BLUETOOTH_TX != 9
+#error "Bluetooth uses AltSoftSerial, which MUST use ping 8 for RX and pin 9 for TX\nPlease check config.h"
+#endif
 
 
 #define PWD_LOCATION   (BLUETOOTH_EEPROM_LOCATION + 0)
@@ -21,7 +26,7 @@
 
 namespace Bluetooth {
   
-  SoftwareSerial hc06(BLUETOOTH_IN, BLUETOOTH_OUT);
+  AltSoftSerial hc06;
 
   void (*callbacks[BLUETOOTH_CALLBACKS_LEN])(char *data, unsigned len);
 
@@ -61,7 +66,7 @@ namespace Bluetooth {
   }
 
   
-  void init() {
+  void init(void) {
   
     hc06.begin(9600);
 
