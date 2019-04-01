@@ -16,6 +16,8 @@ int none; // TODO
 
 #define BLUETOOTH_CALLBACKS_LEN   256
 
+#define BLUETOOTH_DEFAULT_TIMEOUT 200
+
 
 /************************
  * Speedometer

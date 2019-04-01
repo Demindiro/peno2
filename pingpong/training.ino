@@ -9,6 +9,7 @@
 #include <SoftPWM.h>
 #include <SoftPWM_timer.h>
 #include "config.h"
+#include "bluetooth.h"
 
 /*
  * Trainingsprogrammas voor de PPP.
@@ -25,7 +26,7 @@
  */
 namespace Training {
 
-  static void setFireSpeed(int pin, int velocity){
+  void setFireSpeed(int pin, int velocity){
     analogWrite(pin, constrain(velocity, 0, 255));
   }
 
@@ -45,9 +46,9 @@ namespace Training {
   // Nomnomnom
   static void feed(void){
       setServo(PIN_SERVO_FEED, SERVO_FEED_OPEN);
-      delay(SERVO_TURN_TIME);
+      Bluetooth::listen(SERVO_TURN_TIME);
       setServo(PIN_SERVO_FEED, SERVO_FEED_CLOSED);
-      delay(SERVO_TURN_TIME);
+      Bluetooth::listen(SERVO_TURN_TIME);
   }
 
 
@@ -69,7 +70,7 @@ namespace Training {
       Serial.println(count);
       Serial.println(i);
       feed();
-      delay(feedDelay);
+      Bluetooth::listen(feedDelay);
     }
   }
 

@@ -15,7 +15,6 @@
 
 void echo(char *data, size_t len) {
   Bluetooth::send(data, len);
-  Serial.write(data, len);
 }
 
 
@@ -72,12 +71,29 @@ void trainingRandom(char *data, size_t len) {
   Training::fireRandom(data[0]);
 }
 
+
+/**************
+ * Debugging commands
+ */
+
 void setPlatformServo(char *data, unsigned char len) {
   //assert(len == 1);
-  Serial.println("Servo:");
+  Serial.print("Platform Servo: ");
   Serial.println((int)data[0]);
   Training::setServo(7, data[0]);
 }
+
+void setFireSpeed(char *data, unsigned char len) {
+  Serial.print("Fire Speed: ");
+  Serial.println((int)data[0]);
+  Training::setFireSpeed(5, data[0]);
+  Training::setFireSpeed(6, data[0]);
+}
+
+void stopMotors(char *data, unsigned char len) {
+  Serial.println("Stopping motor");
+}
+
 
 
 /************************
@@ -94,10 +110,12 @@ void setup() {
   Bluetooth::setCallback('A', echo);
   Bluetooth::setCallback('P', setPassword);
   Bluetooth::setCallback('S', setPlatformServo);
+  Bluetooth::setCallback('S', setFireSpeed);  
   Bluetooth::setCallback('T', trainingRandom);
+  Bluetooth::setCallback('Z', stopMotors);
 }
 
 
 void loop() {
-  Bluetooth::listen(2000);
+  Bluetooth::listen(-1);
 }
