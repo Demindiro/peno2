@@ -9,5 +9,6 @@ void loop() {
     int s = Serial.parseInt();
     analogWrite(5, s);
     analogWrite(6, s);
+    Serial.println(s);
   }
 }

@@ -11,7 +11,7 @@
 #include "config.h"
 
 
-#if BLUETOOTH_RX != 8 || BLUETOOTH_TX != 9
+#if PIN_BLUETOOTH_RX != 8 || PIN_BLUETOOTH_TX != 9
 #error "Bluetooth uses AltSoftSerial, which MUST use ping 8 for RX and pin 9 for TX\nPlease check config.h"
 #endif
 

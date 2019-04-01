@@ -8,8 +8,8 @@ int none; // TODO
  */
 
 // NOTE: these values aren't
-#define BLUETOOTH_RX  8
-#define BLUETOOTH_TX  9
+#define PIN_BLUETOOTH_RX  8
+#define PIN_BLUETOOTH_TX  9
 
 #define BLUETOOTH_EEPROM_LOCATION 1
 #define BLUETOOTH_EEPROM_LENGTH   32
@@ -30,25 +30,25 @@ int none; // TODO
 /************************
  * Training
  */
-#define PIN_SERVO_HORIZONTAL_ANGLE none
-#define PIN_SERVO_FEED none
-#define PIN_MOTOR_UPPER none
-#define PIN_MOTOR_LOWER none
-#define PIN_EMPTY_ANALOG none
+#define PIN_SERVO_PLATFORM   7
+#define PIN_SERVO_FEED       0
+#define PIN_MOTOR_LEFT       5
+#define PIN_MOTOR_RIGHT      6
+#define PIN_EMPTY_ANALOG     
 
-#define MOTOR_SPINUP none  // tijd voordat de motoren op toerental zijn
-#define SERVO_TURN_LIMIT 340  // tijd voordat de servo op positie staat
-#define POWER_VOORAAN none
-#define POWER_ACHTERAAN none
-#define ANGLE_LV none  // hoek om linksvoor te spelen
-#define ANGLE_LA none  // hoek om linksachter te spelen
-#define ANGLE_RV none  // hoek om rechtsvoor te spelen
-#define ANGLE_RA none  // hoek om rechtsachter te spelen
-#define FEED_LO none // SERVO_FEED open stand
-#define FEED_UP none // SERVO_FEED gesloten stand
+#define MOTOR_SPINUP      1000 // In milliseconds
+#define SERVO_TURN_TIME    340  // In milliseconds
+#define VELOCITY_FRONT      50
+#define VELOCITY_BACK      200
+#define ANGLE_LEFT_FRONT  (-20)
+#define ANGLE_RIGHT_FRONT ( 20)
+#define ANGLE_LEFT_BACK   (-30)
+#define ANGLE_RIGHT_BACK  ( 30)
+#define SERVO_FEED_OPEN     30
+#define SERVO_FEED_CLOSED  -30
 
-const int TRAAG = 4000;
-const int GEMIDDELD = 3000;
-const int SNEL = 2000;
+#define VELOCITY_SLOW     4000
+#define VELOCITY_MEDIAN   3000
+#define VELICOTY_FAST     2000
 
 #endif
