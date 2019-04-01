@@ -34,30 +34,41 @@ namespace Bluetooth {
   void checkForMessage(int timeout) {
     if (!hc06.available())
       return false;
+ //   Serial.println(":(");
 
     unsigned char id    = hc06.read();
+    while (!hc06.available())
+      /* PASS */;
     unsigned char len   = hc06.read();
+  //  Serial.println((size_t)id);
+//    Serial.println((size_t)len);
     unsigned char index = 0;
     char buf[len];
-    int lastRcvTime = micros();
+    int lastRcvTime = millis();
 
     if (callbacks[id] == NULL) {
       send("UNDEFINED", sizeof("UNDEFINED") - 1);
       return;
     }
 
+ //   Serial.println(timeout);
+
     while (index < len) {
       if (!hc06.available()) {
         // Prevent being stuck in a loop without ever receiving enough data
-        if (micros() - lastRcvTime < timeout) {
+        if (millis() - lastRcvTime > timeout) {
           send("TIMEOUT", sizeof("TIMEOUT") - 1);
+          Serial.println("TIMEOUT");
           return;
         }
       } else {
-        lastRcvTime = micros();
+        lastRcvTime = millis();
         while (hc06.available()) {
           buf[index] = hc06.read();
           index++;
+          if (index >= len)
+            break;
+//          Serial.println("=============");
         }
       }
     }
@@ -110,7 +121,7 @@ namespace Bluetooth {
   void listen(int timeout) {
     unsigned long t = millis();
     while (millis() - t < timeout) {
-      
+      checkForMessage(timeout);
     }
   }
 

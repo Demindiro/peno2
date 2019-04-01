@@ -1,6 +1,10 @@
+#include <SoftPWM_timer.h>
+#include <SoftPWM.h>
+
 //#define NDEBUG
 
 #include <assert.h>
+#include <SoftPWM.h>
 #include "bluetooth.h"
 #include "training.h"
 
@@ -64,8 +68,15 @@ void trainingManual(char *data, size_t len) {
  *   - <n>: Fire <n> balls
  */
 void trainingRandom(char *data, size_t len) {
-  assert(len == 1);
+  //assert(len == 1);
   Training::fireRandom(data[0]);
+}
+
+void setPlatformServo(char *data, unsigned char len) {
+  //assert(len == 1);
+  Serial.println("Servo:");
+  Serial.println((int)data[0]);
+  Training::setServo(7, data[0]);
 }
 
 
@@ -82,9 +93,11 @@ void setup() {
   Bluetooth::setCallback(3, trainingRandom);
   Bluetooth::setCallback('A', echo);
   Bluetooth::setCallback('P', setPassword);
+  Bluetooth::setCallback('S', setPlatformServo);
+  Bluetooth::setCallback('T', trainingRandom);
 }
 
 
 void loop() {
-  Bluetooth::listen(-1);
+  Bluetooth::listen(2000);
 }

@@ -34,12 +34,12 @@ int none; // TODO
 #define PIN_SERVO_FEED       0
 #define PIN_MOTOR_LEFT       5
 #define PIN_MOTOR_RIGHT      6
-#define PIN_EMPTY_ANALOG     
+#define PIN_EMPTY_ANALOG     A0
 
 #define MOTOR_SPINUP      1000 // In milliseconds
 #define SERVO_TURN_TIME    340  // In milliseconds
-#define VELOCITY_FRONT      50
-#define VELOCITY_BACK      200
+#define VELOCITY_FRONT     200
+#define VELOCITY_BACK       50
 #define ANGLE_LEFT_FRONT  (-20)
 #define ANGLE_RIGHT_FRONT ( 20)
 #define ANGLE_LEFT_BACK   (-30)
@@ -49,6 +49,6 @@ int none; // TODO
 
 #define VELOCITY_SLOW     4000
 #define VELOCITY_MEDIAN   3000
-#define VELICOTY_FAST     2000
+#define VELOCITY_FAST     2000
 
 #endif

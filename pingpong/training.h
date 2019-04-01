@@ -12,15 +12,19 @@ namespace Training {
     RIGHT_FRONT = 0b11,
   };
 
+  void setServo(int servo, int angle);
+
+  void stopMotors();
+
   void init(void);
 
-  void fire(int angle, int velocity, int count = 1, int feedDelay = TRAAG);
+  void fire(int angle, int velocity, int count = 1, int feedDelay = VELOCITY_SLOW);
 
-  void fireDirection(enum DIRECTION direction, int count = 1, int feedDelay = TRAAG);
+  void fireDirection(enum DIRECTION direction, int count = 1, int feedDelay = VELOCITY_SLOW);
   
-  void fireRandom(int count = 1, int snelheid = TRAAG);
+  void fireRandom(int count = 1, int snelheid = VELOCITY_SLOW);
   
-  void fireLeftRight(int aantal = 1, int snelheid = TRAAG);
+  void fireLeftRight(int aantal = 1, int snelheid = VELOCITY_SLOW);
 }
 
 

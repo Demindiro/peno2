@@ -4,7 +4,7 @@ Servo SERVO_H;
 
 void setup() {
   // put your setup code here, to run once:
-SERVO_H.attach(5);
+SERVO_H.attach(7);
 }
 
 void loop() {

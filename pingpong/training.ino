@@ -25,21 +25,28 @@
  */
 namespace Training {
 
-  static void setFireSpeed(int motor, int snelheid){
-    analogWrite(motor, constrain(snelheid, 0, 255));
+  static void setFireSpeed(int pin, int velocity){
+    analogWrite(pin, constrain(velocity, 0, 255));
   }
 
 
-  static void setServo(int servo, int angle) {
-    SoftPWMSet(servo, map(angle, -90, 90, 7, 38));
+  void setServo(int servo, int angle) {
+    Serial.println(constrain(map(angle, -90, 90, 14, 35), 14, 35));
+    SoftPWMSet(servo, constrain(map(angle, -90, 90, 14, 35), 14, 35));
+  }
+
+
+  void stopMotors() {
+    setFireSpeed(PIN_MOTOR_LEFT, 0);
+    setFireSpeed(PIN_MOTOR_RIGHT, 0);
   }
 
 
   // Nomnomnom
   static void feed(void){
-      setServo(PIN_TRAINING_SERVO_FEED, SERVO_FEED_OPEN);
+      setServo(PIN_SERVO_FEED, SERVO_FEED_OPEN);
       delay(SERVO_TURN_TIME);
-      setServo(PIN_TRAINING_SERVO_FEED, SERVO_FEED_CLOSED);
+      setServo(PIN_SERVO_FEED, SERVO_FEED_CLOSED);
       delay(SERVO_TURN_TIME);
   }
 
@@ -47,59 +54,69 @@ namespace Training {
   void init(void) {
     pinMode(PIN_MOTOR_LEFT, OUTPUT);
     pinMode(PIN_MOTOR_RIGHT, OUTPUT);
+    SoftPWMBegin(SOFTPWM_NORMAL);
     randomSeed(analogRead(PIN_EMPTY_ANALOG));
   }
 
 
-  void fire(int angle, int velocity, int count = 1, int feedDelay = TRAAG) {
-    setFireSpeed(PIN_MOTOR_UPPER, velocity);
-    setFireSpeed(PIN_MOTOR_LOWER, velocity);
+  void fire(int angle, int velocity, int count = 1, int feedDelay = VELOCITY_SLOW) {
+    setFireSpeed(PIN_MOTOR_LEFT, velocity);
+    setFireSpeed(PIN_MOTOR_RIGHT, velocity);
 
-    setServo(SERVO_HORIZONTAL_ANGLE, ANGLE_LV);
+    setServo(PIN_SERVO_PLATFORM, angle);
           
     for(int i = 0; i < count; i++) {
+      Serial.println(count);
+      Serial.println(i);
       feed();
       delay(feedDelay);
     }
   }
 
   
-  void fireDirection(enum DIRECTION direction, int count = 1, int feedDelay = TRAAG){
+  void fireDirection(enum DIRECTION direction, int count = 1, int feedDelay = VELOCITY_SLOW){
     int velocity, angle;
 
     switch (direction) {
       case LEFT_FRONT:
-        angle    = ANGLE_LV;
+        Serial.println("LF");
+        angle    = ANGLE_LEFT_FRONT;
         velocity = VELOCITY_FRONT;
         break;
       case LEFT_BACK:
-        angle    = ANGLE_LA;
+        Serial.println("LB");
+        angle    = ANGLE_LEFT_BACK;
         velocity = VELOCITY_FRONT;
         break;
       case RIGHT_FRONT:
-        angle    = ANGLE_LV;
+        Serial.println("RF");
+        angle    = ANGLE_RIGHT_FRONT;
         velocity = VELOCITY_BACK;
         break;
       case RIGHT_BACK:
-        angle    = ANGLE_RA;
+        Serial.println("RB");
+        angle    = ANGLE_RIGHT_BACK;
         velocity = VELOCITY_BACK;
         break;
       default:
+        Serial.println("DEFEFE");
         assert(0);
     }
 
-    fire(velocity, angle, count, feedDelay);
+    fire(angle, velocity, count, feedDelay);
   }
   
-  void fireRandom(int count = 1, int feedDelay = TRAAG){
+  void fireRandom(int count = 1, int feedDelay = VELOCITY_SLOW){
     for(int i = 0; i <= count; i++)
-      fire((enum DIRECTION)random(1,5), feedDelay = feedDelay);
+      fireDirection((enum DIRECTION)random(0,4), 1, feedDelay);
+    stopMotors();
   }
   
-  void fireLeftRight(int count = 1, int feedDelay = TRAAG){
+  void fireLeftRight(int count = 1, int feedDelay = VELOCITY_SLOW){
     for(int i = 0; i <= count; i++) {
-      fire((enum DIRECTION)random(1,3), feedDelay = feedDelay);
-      fire((enum DIRECTION)random(3,5), feedDelay = feedDelay);
+      fireDirection((enum DIRECTION)random(1,3), 1, feedDelay);
+      fireDirection((enum DIRECTION)random(3,5), 1, feedDelay);
     }
+    stopMotors();
   }
 }
