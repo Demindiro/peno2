@@ -6,9 +6,14 @@
  */
 
 
-#include <SoftwareSerial.h>
+#include <AltSoftSerial.h>
 #include <EEPROM.h>
 #include "config.h"
+
+
+#if PIN_BLUETOOTH_RX != 8 || PIN_BLUETOOTH_TX != 9
+#error "Bluetooth uses AltSoftSerial, which MUST use ping 8 for RX and pin 9 for TX\nPlease check config.h"
+#endif
 
 
 #define PWD_LOCATION   (BLUETOOTH_EEPROM_LOCATION + 0)
@@ -21,39 +26,73 @@
 
 namespace Bluetooth {
   
-  SoftwareSerial hc06(BLUETOOTH_IN, BLUETOOTH_OUT);
+  AltSoftSerial hc06;
 
   void (*callbacks[BLUETOOTH_CALLBACKS_LEN])(char *data, unsigned len);
 
 
-  void checkForMessage(int timeout) {
-    if (!hc06.available())
-      return false;
+  static bool waitForData(int timeout) {
+    int lastRcvTime = millis();
+    while (!hc06.available()) {
+      if (millis() - lastRcvTime > timeout) {
+        send("E_TIMEOUT", sizeof("E_TIMEOUT") - 1, -1);
+#ifndef NDEBUG
+        Serial.print("Timeout exceeded: ");
+        Serial.println(timeout);
+#endif
+        return false;
+      }
+    }
+    return true;
+  }
 
-    unsigned char id    = hc06.read();
-    unsigned char len   = hc06.read();
+
+  static void checkForMessage(int timeout) {
+    if (!hc06.available())
+      return;
+
+#ifndef NDEBUG
+    Serial.println("Receiving message");
+#endif
+
+    unsigned char id  = hc06.read();
+    if (!waitForData(timeout))
+      return;
+#ifndef NDEBUG
+    Serial.print("ID: ");
+    Serial.println((int)id);
+#endif
+    unsigned char len = hc06.read();
+    if (!waitForData(timeout))
+      return;
+#ifndef NDEBUG
+    Serial.print("Length: ");
+    Serial.println((int)len);
+#endif
+
     unsigned char index = 0;
     char buf[len];
-    int lastRcvTime = micros();
 
     if (callbacks[id] == NULL) {
-      send("UNDEFINED", sizeof("UNDEFINED") - 1);
+      send("E_UNDEFINED", sizeof("E_UNDEFINED") - 1);
       return;
     }
 
     while (index < len) {
-      if (!hc06.available()) {
-        // Prevent being stuck in a loop without ever receiving enough data
-        if (micros() - lastRcvTime < timeout) {
-          send("TIMEOUT", sizeof("TIMEOUT") - 1);
-          return;
-        }
-      } else {
-        lastRcvTime = micros();
-        while (hc06.available()) {
-          buf[index] = hc06.read();
-          index++;
-        }
+      if (!waitForData(timeout))
+        return;
+      while (hc06.available()) {
+        buf[index] = hc06.read();
+#ifndef NDEBUG
+      Serial.print("Received '");
+      Serial.print(buf[index]);
+      Serial.print("' (");
+      Serial.print((int)buf[index]);
+      Serial.println(")");
+#endif
+        index++;
+        if (index >= len)
+          break;
       }
     }
     
@@ -61,8 +100,12 @@ namespace Bluetooth {
   }
 
   
-  void init() {
-  
+  void init(void) {
+
+#ifndef NDEBUG
+    Serial.println("Initializing Bluetooth...");
+#endif
+
     hc06.begin(9600);
 
     unsigned char pin[PWD_LEN];
@@ -88,6 +131,10 @@ namespace Bluetooth {
       hc06.write(name, strlen(name));
     }
     hc06.write("AT+NAMEquack");
+
+#ifndef NDEBUG
+    Serial.println("Initialized Bluetooth");
+#endif
   }
 
 
@@ -96,17 +143,29 @@ namespace Bluetooth {
   }
 
 
-  void send(char *data, unsigned char len) {
+  void send(char *data, unsigned char len, unsigned char code = 0) {
+    hc06.write(code);
     hc06.write(len);
     hc06.write(data, len);
+#ifndef NDEBUG
+    Serial.print("Sending: ");
+    Serial.write(data, len);
+    Serial.print("\nStatus: ");
+    Serial.println(code);
+#endif
   }
 
 
-  void listen(int timeout) {
+  void listen(unsigned int listenTimeout, unsigned int acceptTimeout = BLUETOOTH_DEFAULT_TIMEOUT) {
+#ifndef NDEBUG
+    Serial.println("Listening for packet...");
+#endif
     unsigned long t = millis();
-    while (millis() - t < timeout) {
-      
-    }
+    while (millis() - t < listenTimeout)
+      checkForMessage(acceptTimeout);
+#ifndef NDEBUG
+    Serial.println("Done listening");
+#endif
   }
 
 
