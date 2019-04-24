@@ -55,7 +55,6 @@ namespace Training {
   void init(void) {
     pinMode(PIN_MOTOR_LEFT, OUTPUT);
     pinMode(PIN_MOTOR_RIGHT, OUTPUT);
-    SoftPWMBegin(SOFTPWM_NORMAL);
     randomSeed(analogRead(PIN_EMPTY_ANALOG));
   }
 
