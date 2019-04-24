@@ -16,7 +16,7 @@ int none; // TODO
 
 #define BLUETOOTH_CALLBACKS_LEN   256
 
-#define BLUETOOTH_DEFAULT_TIMEOUT 200
+#define BLUETOOTH_DEFAULT_TIMEOUT 2000
 
 
 /************************
@@ -52,5 +52,24 @@ int none; // TODO
 #define VELOCITY_SLOW     4000
 #define VELOCITY_MEDIAN   3000
 #define VELOCITY_FAST     2000
+
+
+/*************
+ * LED
+ */
+#define LED_PIN_RED       2
+#define LED_PIN_GREEN     4
+#define LED_PIN_BLUE      3
+
+
+/*******
+ * Balls
+ */
+#define MAX_BALL_COUNT             10
+#define BALLS_TRIG_PIN             A3
+#define BALLS_ECHO_PIN             A2
+#define BALLS_CALIBRATION_FACTOR    (0.5 / 29.1 * (45.0 / 28.0))
+
+
 
 #endif
