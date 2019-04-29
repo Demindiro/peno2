@@ -8,8 +8,6 @@ namespace Led {
 
   int ballCountFeedback(void);
 
-  void _init();
-
 }
 
 
