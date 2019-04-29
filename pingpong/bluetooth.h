@@ -33,7 +33,7 @@ namespace Bluetooth {
    /**
     * We can't use a timer :D /s
     */
-   void listen(unsigned int listenTimeout, unsigned int acceptTimeout = BLUETOOTH_DEFAULT_TIMEOUT);
+   void listen(unsigned long listenTimeout, unsigned long acceptTimeout = BLUETOOTH_DEFAULT_TIMEOUT);
 
 
   /**

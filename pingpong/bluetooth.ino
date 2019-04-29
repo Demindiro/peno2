@@ -32,7 +32,7 @@ namespace Bluetooth {
 
 
   static bool waitForData(int timeout) {
-    int lastRcvTime = millis();
+    unsigned long lastRcvTime = millis();
     while (!hc06.available()) {
       if (millis() - lastRcvTime > timeout) {
         send("E_TIMEOUT", sizeof("E_TIMEOUT") - 1, -1);
@@ -156,7 +156,7 @@ namespace Bluetooth {
   }
 
 
-  void listen(unsigned int listenTimeout, unsigned int acceptTimeout = BLUETOOTH_DEFAULT_TIMEOUT) {
+  void listen(unsigned long listenTimeout, unsigned long acceptTimeout = BLUETOOTH_DEFAULT_TIMEOUT) {
 #ifndef NDEBUG
     Serial.println("Listening for packet...");
 #endif
