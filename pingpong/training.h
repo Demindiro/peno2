@@ -18,8 +18,6 @@ namespace Training {
 
   void stopMotors();
 
-  void init(void);
-
   void fire(int angle, int velocity, int count = 1, int feedDelay = VELOCITY_SLOW);
 
   void fireDirection(enum DIRECTION direction, int count = 1, int feedDelay = VELOCITY_SLOW);

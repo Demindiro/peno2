@@ -24,11 +24,53 @@
 #define NAME_LEN       (20 + 1) // Include a null-terminator
 
 
+
 namespace Bluetooth {
   
   AltSoftSerial hc06;
 
   void (*callbacks[BLUETOOTH_CALLBACKS_LEN])(char *data, unsigned len);
+
+
+
+  __attribute__((constructor))
+  static void _init(void) {
+
+#ifndef NDEBUG
+    Serial.println("Initializing Bluetooth...");
+#endif
+
+    hc06.begin(9600);
+
+    unsigned char pin[PWD_LEN];
+    unsigned char name[NAME_LEN];
+
+    getPassword(pin);
+    getName(name);
+
+    // AFAIK only '0' to '9' are valid values
+    // An extra check shouldn't be needed, but let's prevent bricking anything
+    for (size_t i = 0; i < PWD_LEN; i++)
+      if (pin[i] < '0' || pin[i] > '9')
+        goto invalid_pin;
+    Serial.write(pin, 4);
+    hc06.write("AT+PIN");
+    hc06.write(pin, 4);
+  invalid_pin:
+  
+    // 0xFF == No data has been written yet
+    if (name[0] != 0xFF) {
+      // Note: this only works after a reboot because reasons: https://picaxeforum.co.uk/threads/hc-06-rename-issue.28561/
+      hc06.write("AT+NAME");
+      hc06.write(name, strlen(name));
+    }
+    hc06.write("AT+NAMEquack");
+
+#ifndef NDEBUG
+    Serial.println("Initialized Bluetooth");
+#endif
+  }
+  
 
 
   static bool waitForData(int timeout) {
@@ -97,44 +139,6 @@ namespace Bluetooth {
     }
     
     callbacks[id](buf, len);
-  }
-
-  
-  void init(void) {
-
-#ifndef NDEBUG
-    Serial.println("Initializing Bluetooth...");
-#endif
-
-    hc06.begin(9600);
-
-    unsigned char pin[PWD_LEN];
-    unsigned char name[NAME_LEN];
-
-    getPassword(pin);
-    getName(name);
-
-    // AFAIK only '0' to '9' are valid values
-    // An extra check shouldn't be needed, but let's prevent bricking anything
-    for (size_t i = 0; i < PWD_LEN; i++)
-      if (pin[i] < '0' || pin[i] > '9')
-        goto invalid_pin;
-    Serial.write(pin, 4);
-    hc06.write("AT+PIN");
-    hc06.write(pin, 4);
-  invalid_pin:
-  
-    // 0xFF == No data has been written yet
-    if (name[0] != 0xFF) {
-      // Note: this only works after a reboot because reasons: https://picaxeforum.co.uk/threads/hc-06-rename-issue.28561/
-      hc06.write("AT+NAME");
-      hc06.write(name, strlen(name));
-    }
-    hc06.write("AT+NAMEquack");
-
-#ifndef NDEBUG
-    Serial.println("Initialized Bluetooth");
-#endif
   }
 
 

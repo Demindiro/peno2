@@ -104,8 +104,6 @@ void stopMotors(char *data, unsigned char len) {
 void setup() {
   Serial.begin(9600);
   SoftPWMBegin(SOFTPWM_NORMAL);
-  Bluetooth::init();
-  Training::init();
   Bluetooth::setCallback(0, trainingDefault);
   Bluetooth::setCallback(1, trainingManual);
   Bluetooth::setCallback(2, trainingRandom);
@@ -115,7 +113,6 @@ void setup() {
   Bluetooth::setCallback('S', setFireSpeed);  
   Bluetooth::setCallback('T', trainingRandom);
   Bluetooth::setCallback('Z', stopMotors);
-  Led::_init();
 }
 
 

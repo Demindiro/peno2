@@ -14,8 +14,6 @@ namespace Bluetooth {
    * Setup
    */
 
-  void init(void);
-
   void setCallback(char id, void (*callback)(char *data, unsigned char len));
 
   void isModuleConnected(void); // TODO

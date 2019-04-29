@@ -6,7 +6,7 @@
 
 namespace Led {
 
-  //__attribute__((constructor))
+  __attribute__((constructor))
   static void _init() {
     pinMode(LED_PIN_RED  , OUTPUT);
     pinMode(LED_PIN_GREEN, OUTPUT);

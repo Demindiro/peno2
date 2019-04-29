@@ -58,11 +58,10 @@ namespace Training {
 
 
   __attribute__((constructor))
-  void init(void) {
+  static void _init(void) {
     pinMode(PIN_MOTOR_LEFT, OUTPUT);
     pinMode(PIN_MOTOR_RIGHT, OUTPUT);
     randomSeed(analogRead(PIN_EMPTY_ANALOG));
-    //SoftPWMSetFadeTime(PIN_SERVO_PLATFORM)
   }
 
 

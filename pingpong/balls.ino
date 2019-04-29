@@ -1,9 +1,13 @@
+#include "config.h"
+
 
 __attribute__((constructor))
 static void _setup(void) {
   pinMode(BALLS_TRIG_PIN, OUTPUT);
   pinMode(BALLS_ECHO_PIN, INPUT);
 }
+
+
 
 namespace Balls {
   int count(void){
