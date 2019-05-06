@@ -12,7 +12,7 @@ namespace Training {
     RIGHT_FRONT = 0b11,
   };
 
-  void setFireSpeed(int servo, int velocity);
+  void setFireSpeed(int velocityLeft, int velocityRight);
 
   void setServo(int servo, float angle);
 

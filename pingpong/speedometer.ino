@@ -3,8 +3,8 @@
 namespace Speedometer {
 
   float measureVelocity(void) {
-    unsigned long firstTime, secondTime;
-    int analogValue, start;
+    unsigned long firstTime, secondTime, start;
+    int analogValue;
   
     // Wait for a value change in the first sensor
     analogValue = analogRead(SPEEDOMETER_LDR_FIRST);

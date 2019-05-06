@@ -33,8 +33,8 @@ namespace Bluetooth {
 
 
 
-  __attribute__((constructor))
-  static void _init(void) {
+  //__attribute__((constructor))
+  void _init(void) {
 
 #ifndef NDEBUG
     Serial.println("Initializing Bluetooth...");

@@ -18,6 +18,8 @@ namespace Bluetooth {
 
   void isModuleConnected(void); // TODO
 
+  void _init();
+
 
   /**
    * Wireless

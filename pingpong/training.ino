@@ -26,8 +26,9 @@
  */
 namespace Training {
 
-  void setFireSpeed(int pin, int velocity){
-    analogWrite(pin, constrain(velocity, 0, 255));
+  void setFireSpeed(int velocityLeft, int velocityRight){
+    analogWrite(PIN_MOTOR_LEFT , constrain(velocityLeft , 0, 255));
+    analogWrite(PIN_MOTOR_RIGHT, constrain(velocityRight, 0, 255));
   }
 
 
@@ -41,8 +42,7 @@ namespace Training {
 
 
   void stopMotors() {
-    setFireSpeed(PIN_MOTOR_LEFT, 0);
-    setFireSpeed(PIN_MOTOR_RIGHT, 0);
+    setFireSpeed(0, 0);
   }
 
 
@@ -66,8 +66,7 @@ namespace Training {
 
 
   void fire(int angle, int velocity, int count = 1, int feedDelay = VELOCITY_SLOW) {
-    setFireSpeed(PIN_MOTOR_LEFT, velocity);
-    setFireSpeed(PIN_MOTOR_RIGHT, velocity);
+    setFireSpeed(velocity, velocity);
 
     setServo(PIN_SERVO_PLATFORM, angle);
           
