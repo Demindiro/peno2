@@ -3,13 +3,13 @@
 
 
 namespace Led {
-  
+
+  void init(void);
+ 
   void set(int r, int g, int b);
 
   int ballCountFeedback(void);
-
-  void _init();
-
+ 
 }
 
 

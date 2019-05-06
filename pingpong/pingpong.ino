@@ -41,7 +41,7 @@ void trainingDefault(char *data, size_t len) {
   // LSB first:
   // - Bit 0: Back/front
   // - Bit 1: Left/right
-  Training::fire(data[1] & (data[2] << 1), data[0]);
+  Training::fireDirection(data[1] & (data[2] << 1), data[0]);
 }
 
 
@@ -106,16 +106,16 @@ void setup() {
   SoftPWMBegin(SOFTPWM_NORMAL);
   Bluetooth::init();
   Training::init();
+  Led::init();
   Bluetooth::setCallback(0, trainingDefault);
   Bluetooth::setCallback(1, trainingManual);
   Bluetooth::setCallback(2, trainingRandom);
+  Bluetooth::setCallback(60, stopMotors);
   Bluetooth::setCallback('A', echo);
   Bluetooth::setCallback('P', setPassword);
   Bluetooth::setCallback('S', setPlatformServo);
   Bluetooth::setCallback('S', setFireSpeed);  
   Bluetooth::setCallback('T', trainingRandom);
-  Bluetooth::setCallback('Z', stopMotors);
-  Led::_init();
 }
 
 

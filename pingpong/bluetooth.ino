@@ -130,7 +130,6 @@ namespace Bluetooth {
       hc06.write("AT+NAME");
       hc06.write(name, strlen(name));
     }
-    hc06.write("AT+NAMEquack");
 
 #ifndef NDEBUG
     Serial.println("Initialized Bluetooth");
