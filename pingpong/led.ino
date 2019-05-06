@@ -22,7 +22,10 @@ namespace Led {
   // TODO: move this to another module
   int ballCountFeedback(void) {
     int count = Balls::count();
+#ifndef NDEBUG
+    Serial.print("Balls available: ");
     Serial.println(count);
+#endif
     int r = map(MAX_BALL_COUNT - count, 0, MAX_BALL_COUNT, 0, 255);
     int g = map(count, 0, MAX_BALL_COUNT, 0, 255);
     set(r, g, 0);

@@ -8,6 +8,7 @@
 #include "bluetooth.h"
 #include "training.h"
 #include "led.h"
+#include "speedometer.h"
 
 
 /************************
@@ -92,7 +93,9 @@ void setFireSpeed(char *data, unsigned char len) {
 }
 
 void stopMotors(char *data, unsigned char len) {
+#ifndef NDEBUG
   Serial.println("Stopping motor");
+#endif
 }
 
 
@@ -104,21 +107,44 @@ void stopMotors(char *data, unsigned char len) {
 void setup() {
   Serial.begin(9600);
   SoftPWMBegin(SOFTPWM_NORMAL);
+  /*
   Bluetooth::init();
   Training::init();
   Led::init();
-  Bluetooth::setCallback(0, trainingDefault);
-  Bluetooth::setCallback(1, trainingManual);
-  Bluetooth::setCallback(2, trainingRandom);
+  */
+  /*
+  Bluetooth::setCallback( 0, trainingDefault);
+  Bluetooth::setCallback( 1, trainingManual);
+  Bluetooth::setCallback( 2, trainingRandom);
   Bluetooth::setCallback(60, stopMotors);
   Bluetooth::setCallback('A', echo);
   Bluetooth::setCallback('P', setPassword);
   Bluetooth::setCallback('S', setPlatformServo);
   Bluetooth::setCallback('S', setFireSpeed);  
   Bluetooth::setCallback('T', trainingRandom);
+  */
 }
 
 
 void loop() {
-  Bluetooth::listen(-1);
+  //Bluetooth::listen(-1);
+  /*
+  Training::setServo(PIN_SERVO_PLATFORM, 60);
+  delay(4500);
+  Training::setServo(PIN_SERVO_PLATFORM, -60);
+  delay(4500);
+  */
+//  while (1) {
+/*    Serial.println(analogRead(SPEEDOMETER_LDR_FIRST));
+    Serial.println(analogRead(SPEEDOMETER_LDR_SECOND));
+    Serial.println("======");*/
+    //Serial.println(Speedometer::measureVelocity());
+    //delay(1000);
+  //}      setServo(PIN_SERVO_FEED, SERVO_FEED_OPEN);
+    //Bluetooth::listen(SERVO_TURN_TIME);
+    delay(SERVO_TURN_TIME);
+    Training::setServo(PIN_SERVO_PLATFORM, SERVO_FEED_CLOSED);
+    //Bluetooth::listen(SERVO_TURN_TIME);
+    delay(SERVO_TURN_TIME);
+    Training::setServo(PIN_SERVO_PLATFORM, SERVO_FEED_OPEN);
 }

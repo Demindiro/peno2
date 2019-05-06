@@ -22,11 +22,11 @@ int none; // TODO
 /************************
  * Speedometer
  */
-#define SPEEDOMETER_LDR_FIRST    A4
-#define SPEEDOMETER_LDR_SECOND   A5
+#define SPEEDOMETER_LDR_FIRST    A0
+#define SPEEDOMETER_LDR_SECOND   A1
 #define SPEEDOMETER_DISTANCE     none // In meters
 #define SPEEDOMETER_THRESHOLD    100
-#define SPEEDOMETER_TIMEOUT      1    // In seconds -- Prevent being stuck if for some reason the threshold is not reached
+#define SPEEDOMETER_TIMEOUT      100  // In milliseconds -- Prevent being stuck if for some reason the threshold is not reached
 
 
 /************************
@@ -36,18 +36,19 @@ int none; // TODO
 #define PIN_SERVO_FEED       0
 #define PIN_MOTOR_LEFT       5
 #define PIN_MOTOR_RIGHT      6
-#define PIN_EMPTY_ANALOG     A0
+#define PIN_EMPTY_ANALOG     A6
+#define SERVO_SCALING        (30.0f / 60.0f) // 
 
-#define MOTOR_SPINUP      1000 // In milliseconds
-#define SERVO_TURN_TIME    340  // In milliseconds
+#define MOTOR_SPINUP      1000  // In milliseconds
+#define SERVO_TURN_TIME   4000  // In milliseconds
 #define VELOCITY_FRONT     200
 #define VELOCITY_BACK       50
-#define ANGLE_LEFT_FRONT  (-20)
-#define ANGLE_RIGHT_FRONT ( 20)
-#define ANGLE_LEFT_BACK   (-30)
-#define ANGLE_RIGHT_BACK  ( 30)
-#define SERVO_FEED_OPEN     30
-#define SERVO_FEED_CLOSED  -30
+#define ANGLE_LEFT_FRONT   -20
+#define ANGLE_RIGHT_FRONT   20
+#define ANGLE_LEFT_BACK    -30
+#define ANGLE_RIGHT_BACK    30
+#define SERVO_FEED_OPEN     60
+#define SERVO_FEED_CLOSED  -60
 
 #define VELOCITY_SLOW     4000
 #define VELOCITY_MEDIAN   3000

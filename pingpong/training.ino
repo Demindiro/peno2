@@ -32,11 +32,13 @@ namespace Training {
 
 
   void setServo(int servo, float angle) {
+#ifndef NDEBUG
     Serial.print("Angle: ");
     Serial.print(angle);
     Serial.print(" --> Mapped angle: ");
-    Serial.println(constrain(map(angle, -90, 90, 14, 35), 14, 35));
-    SoftPWMSet(servo, constrain(map(angle, -90, 90, 14, 35), 14, 35));
+    Serial.println(constrain(map(angle, -90 * SERVO_SCALING, 90 * SERVO_SCALING, 14, 35), 14 - 100, 35 + 100));
+#endif
+    SoftPWMSet(servo, constrain(map(angle, -90 * SERVO_SCALING, 90 * SERVO_SCALING, 14, 35), 14 - 100, 35 + 100));
   }
 
 
@@ -57,7 +59,7 @@ namespace Training {
   }
 
 
-  __attribute__((constructor))
+  //__attribute__((constructor))
   void init(void) {
     pinMode(PIN_MOTOR_LEFT, OUTPUT);
     pinMode(PIN_MOTOR_RIGHT, OUTPUT);
@@ -71,7 +73,7 @@ namespace Training {
     setFireSpeed(PIN_MOTOR_RIGHT, velocity);
 
     setServo(PIN_SERVO_PLATFORM, angle);
-          
+
     for(int i = 0; i < count; i++) {
       feed();
       delay(feedDelay);
@@ -106,7 +108,7 @@ namespace Training {
         break;
       default:
         Serial.println("This cannot happen :o");
-        delay(1000);
+        delay(1000); // Make
         assert(0);
     }
 

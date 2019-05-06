@@ -119,7 +119,11 @@ namespace Bluetooth {
     for (size_t i = 0; i < PWD_LEN; i++)
       if (pin[i] < '0' || pin[i] > '9')
         goto invalid_pin;
+#ifndef NDEBUG
+    Serial.print("Pin code: ");
     Serial.write(pin, 4);
+    Serial.println();
+#endif
     hc06.write("AT+PIN");
     hc06.write(pin, 4);
   invalid_pin:
