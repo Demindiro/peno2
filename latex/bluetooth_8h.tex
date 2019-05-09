@@ -1,0 +1,31 @@
+\hypertarget{bluetooth_8h}{}\section{pingpong/bluetooth.h File Reference}
+\label{bluetooth_8h}\index{pingpong/bluetooth.h@{pingpong/bluetooth.h}}
+{\ttfamily \#include \char`\"{}config.\+h\char`\"{}}\newline
+\subsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \mbox{\hyperlink{namespace_bluetooth}{Bluetooth}}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{namespace_bluetooth_af5eca873435207a9ebc7d940f94b4464}{Bluetooth\+::init}} (void)
+\item 
+void \mbox{\hyperlink{namespace_bluetooth_ac0b875e86220d5ad1a194fd9503494ff}{Bluetooth\+::set\+Callback}} (char id, void($\ast$callback)(char $\ast$data, unsigned char len))
+\item 
+bool \mbox{\hyperlink{namespace_bluetooth_a3fe8dfbf207574a954a161112d2d5210}{Bluetooth\+::is\+Module\+Connected}} (void)
+\item 
+bool \mbox{\hyperlink{namespace_bluetooth_a339db81b59168385379a2d0872d1c1b8}{Bluetooth\+::is\+Connected}} ()
+\item 
+void \mbox{\hyperlink{namespace_bluetooth_a9ad33cca29bf063358e0f7dfbefdd38e}{Bluetooth\+::send}} (char $\ast$data, unsigned char len, unsigned char code=0)
+\item 
+void \mbox{\hyperlink{namespace_bluetooth_a4720c670f39b68ad09ab0426a586684e}{Bluetooth\+::listen}} (unsigned long listen\+Timeout, unsigned long accept\+Timeout=\mbox{\hyperlink{config_8h_a1abf7783a21bd29cabcbde11b37d9739}{B\+L\+U\+E\+T\+O\+O\+T\+H\+\_\+\+D\+E\+F\+A\+U\+L\+T\+\_\+\+T\+I\+M\+E\+O\+UT}})
+\item 
+void \mbox{\hyperlink{namespace_bluetooth_aa4106d9b9a752c4dbf6ae8e098a4a5b6}{Bluetooth\+::get\+Password}} (char $\ast$out)
+\item 
+void \mbox{\hyperlink{namespace_bluetooth_a3a7424882a0f6f3ea6e6cb3ae363ee58}{Bluetooth\+::get\+Name}} (char $\ast$out)
+\item 
+void \mbox{\hyperlink{namespace_bluetooth_a180dbaf21f449e085983a7d2443d24f6}{Bluetooth\+::set\+Password}} (char $\ast$pin)
+\item 
+void \mbox{\hyperlink{namespace_bluetooth_a75f8c76cf9fea1f13426ada5be430673}{Bluetooth\+::set\+Name}} (char $\ast$name)
+\end{DoxyCompactItemize}

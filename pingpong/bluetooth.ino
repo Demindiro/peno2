@@ -1,6 +1,13 @@
+/** @file */ 
+
 /**
- * Receiving and sending commands:
+ * Receiving commands:
  *  - 1 byte  | Command id 
+ *  - 1 byte  | Data length
+ *  - n bytes | Data
+ *  
+ * Sending data:
+ *  - 1 byte  | Status code
  *  - 1 byte  | Data length
  *  - n bytes | Data
  */
@@ -36,10 +43,8 @@ namespace Bluetooth {
     while (!hc06.available()) {
       if (millis() - lastRcvTime > timeout) {
         send("E_TIMEOUT", sizeof("E_TIMEOUT") - 1, -1);
-#ifndef NDEBUG
-        Serial.print("Timeout exceeded: ");
-        Serial.println(timeout);
-#endif
+        DEBUG(F("Timeout exceeded: "));
+        DEBUGLN(timeout);
         return false;
       }
     }
@@ -83,13 +88,11 @@ namespace Bluetooth {
         return;
       while (hc06.available()) {
         buf[index] = hc06.read();
-#ifndef NDEBUG
-      Serial.print("Received '");
-      Serial.print(buf[index]);
-      Serial.print("' (");
-      Serial.print((int)buf[index]);
-      Serial.println(")");
-#endif
+        DEBUG(F("Received '"));
+        DEBUG(buf[index]);
+        DEBUG(F("' ("));
+        DEBUG((int)buf[index]);
+        DEBUGLN(F(")"));
         index++;
         if (index >= len)
           break;
@@ -102,9 +105,7 @@ namespace Bluetooth {
   
   void init(void) {
 
-#ifndef NDEBUG
-    Serial.println("Initializing Bluetooth...");
-#endif
+    DEBUGLN(F("Initializing Bluetooth..."));
 
     hc06.begin(9600);
 
@@ -119,11 +120,9 @@ namespace Bluetooth {
     for (size_t i = 0; i < PWD_LEN; i++)
       if (pin[i] < '0' || pin[i] > '9')
         goto invalid_pin;
-#ifndef NDEBUG
-    Serial.print("Pin code: ");
-    Serial.write(pin, 4);
-    Serial.println();
-#endif
+    DEBUG(F("Pin code: "));
+    DEBUGW(pin, 4);
+    DEBUGLN();
     hc06.write("AT+PIN");
     hc06.write(pin, 4);
   invalid_pin:
@@ -131,13 +130,14 @@ namespace Bluetooth {
     // 0xFF == No data has been written yet
     if (name[0] != 0xFF) {
       // Note: this only works after a reboot because reasons: https://picaxeforum.co.uk/threads/hc-06-rename-issue.28561/
+      DEBUG(F("Name: "));
+      DEBUGW(name, strlen(name));
+      DEBUGLN();
       hc06.write("AT+NAME");
       hc06.write(name, strlen(name));
     }
 
-#ifndef NDEBUG
-    Serial.println("Initialized Bluetooth");
-#endif
+    DEBUGLN(F("Initialized Bluetooth"));
   }
 
 
@@ -159,16 +159,20 @@ namespace Bluetooth {
   }
 
 
+  void sendRaw(char *data, unsigned char len) {
+    DEBUG(F("Sending raw: "));
+    DEBUGW(data, len);
+    DEBUGLN();
+    hc06.write(data, len);
+  }
+
+
   void listen(unsigned long listenTimeout, unsigned long acceptTimeout = BLUETOOTH_DEFAULT_TIMEOUT) {
-#ifndef NDEBUG
-    Serial.println("Listening for packet...");
-#endif
+    DEBUGLN(F("Listening for packet..."));
     unsigned long t = millis();
     while (millis() - t < listenTimeout)
       checkForMessage(acceptTimeout);
-#ifndef NDEBUG
-    Serial.println("Done listening");
-#endif
+    DEBUGLN(F("Done listening"));
   }
 
 

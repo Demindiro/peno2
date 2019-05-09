@@ -1,0 +1,38 @@
+\hypertarget{training_8h}{}\section{pingpong/training.h File Reference}
+\label{training_8h}\index{pingpong/training.h@{pingpong/training.h}}
+{\ttfamily \#include \char`\"{}config.\+h\char`\"{}}\newline
+\subsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \mbox{\hyperlink{namespace_training}{Training}}
+\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{namespace_training_a8174b4453347140eff551a8d9baec7ed}{Training\+::\+D\+I\+R\+E\+C\+T\+I\+ON}} \{ \mbox{\hyperlink{namespace_training_a8174b4453347140eff551a8d9baec7eda4ecbc23a6f8f45a7de455ef6e04274e3}{Training\+::\+L\+E\+F\+T\+\_\+\+B\+A\+CK}} = 0b00, 
+\mbox{\hyperlink{namespace_training_a8174b4453347140eff551a8d9baec7edaae342582450ed44e65791fb0d972ea90}{Training\+::\+L\+E\+F\+T\+\_\+\+F\+R\+O\+NT}} = 0b01, 
+\mbox{\hyperlink{namespace_training_a8174b4453347140eff551a8d9baec7eda53e90be4adb3817244622e1d101f8d96}{Training\+::\+R\+I\+G\+H\+T\+\_\+\+B\+A\+CK}} = 0b10, 
+\mbox{\hyperlink{namespace_training_a8174b4453347140eff551a8d9baec7eda890a26f63e2a0ee31c47407f8806190f}{Training\+::\+R\+I\+G\+H\+T\+\_\+\+F\+R\+O\+NT}} = 0b11
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{namespace_training_ae351ffcdd0f27d4185db28a1a15c03f4}{Training\+::set\+Fire\+Speed}} (int motor, int velocity)
+\item 
+void \mbox{\hyperlink{namespace_training_a96a1d8388782f92fc61635d91ef9c897}{Training\+::set\+Servo}} (int servo, float angle)
+\item 
+void \mbox{\hyperlink{namespace_training_a591534cde78f019ac71e59726b245d13}{Training\+::stop\+Motors}} (void)
+\item 
+void \mbox{\hyperlink{namespace_training_a5780d5517d3844d33e2b1580a357f5d7}{Training\+::init}} (void)
+\item 
+void \mbox{\hyperlink{namespace_training_a44e70e37dd1ef439a2e92c3b69ab3b79}{Training\+::feed}} (void)
+\item 
+void \mbox{\hyperlink{namespace_training_a25b00da6c3717c5a9a7ade178154f8ab}{Training\+::fire}} (int angle, int velocity, int count=1, int feed\+Delay=\mbox{\hyperlink{config_8h_ad03aa78abd1ccf6ef0d5ce525fd2b6e3}{V\+E\+L\+O\+C\+I\+T\+Y\+\_\+\+S\+L\+OW}})
+\item 
+void \mbox{\hyperlink{namespace_training_a34c927580fe04da9e782020f263cbb0d}{Training\+::fire\+Direction}} (enum D\+I\+R\+E\+C\+T\+I\+ON direction, int count=1, int feed\+Delay=\mbox{\hyperlink{config_8h_ad03aa78abd1ccf6ef0d5ce525fd2b6e3}{V\+E\+L\+O\+C\+I\+T\+Y\+\_\+\+S\+L\+OW}})
+\item 
+void \mbox{\hyperlink{namespace_training_ab47b64162371d09b3fb2196ad8a153a4}{Training\+::fire\+Random}} (int count=1, int snelheid=\mbox{\hyperlink{config_8h_ad03aa78abd1ccf6ef0d5ce525fd2b6e3}{V\+E\+L\+O\+C\+I\+T\+Y\+\_\+\+S\+L\+OW}})
+\item 
+void \mbox{\hyperlink{namespace_training_a0361ba330b0610c92ce6be9384fbcbd0}{Training\+::fire\+Left\+Right}} (int count=2, int velocity=\mbox{\hyperlink{config_8h_ad03aa78abd1ccf6ef0d5ce525fd2b6e3}{V\+E\+L\+O\+C\+I\+T\+Y\+\_\+\+S\+L\+OW}})
+\end{DoxyCompactItemize}

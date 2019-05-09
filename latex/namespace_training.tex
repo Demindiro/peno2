@@ -1,0 +1,179 @@
+\hypertarget{namespace_training}{}\section{Training Namespace Reference}
+\label{namespace_training}\index{Training@{Training}}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{namespace_training_a8174b4453347140eff551a8d9baec7ed}{D\+I\+R\+E\+C\+T\+I\+ON}} \{ \mbox{\hyperlink{namespace_training_a8174b4453347140eff551a8d9baec7eda4ecbc23a6f8f45a7de455ef6e04274e3}{L\+E\+F\+T\+\_\+\+B\+A\+CK}} = 0b00, 
+\mbox{\hyperlink{namespace_training_a8174b4453347140eff551a8d9baec7edaae342582450ed44e65791fb0d972ea90}{L\+E\+F\+T\+\_\+\+F\+R\+O\+NT}} = 0b01, 
+\mbox{\hyperlink{namespace_training_a8174b4453347140eff551a8d9baec7eda53e90be4adb3817244622e1d101f8d96}{R\+I\+G\+H\+T\+\_\+\+B\+A\+CK}} = 0b10, 
+\mbox{\hyperlink{namespace_training_a8174b4453347140eff551a8d9baec7eda890a26f63e2a0ee31c47407f8806190f}{R\+I\+G\+H\+T\+\_\+\+F\+R\+O\+NT}} = 0b11
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{namespace_training_ae351ffcdd0f27d4185db28a1a15c03f4}{set\+Fire\+Speed}} (int motor, int velocity)
+\item 
+void \mbox{\hyperlink{namespace_training_a96a1d8388782f92fc61635d91ef9c897}{set\+Servo}} (int servo, float angle)
+\item 
+void \mbox{\hyperlink{namespace_training_a591534cde78f019ac71e59726b245d13}{stop\+Motors}} (void)
+\item 
+void \mbox{\hyperlink{namespace_training_a5780d5517d3844d33e2b1580a357f5d7}{init}} (void)
+\item 
+void \mbox{\hyperlink{namespace_training_a44e70e37dd1ef439a2e92c3b69ab3b79}{feed}} (void)
+\item 
+void \mbox{\hyperlink{namespace_training_a25b00da6c3717c5a9a7ade178154f8ab}{fire}} (int angle, int velocity, int count=1, int feed\+Delay=\mbox{\hyperlink{config_8h_ad03aa78abd1ccf6ef0d5ce525fd2b6e3}{V\+E\+L\+O\+C\+I\+T\+Y\+\_\+\+S\+L\+OW}})
+\item 
+void \mbox{\hyperlink{namespace_training_a34c927580fe04da9e782020f263cbb0d}{fire\+Direction}} (enum \mbox{\hyperlink{namespace_training_a8174b4453347140eff551a8d9baec7ed}{D\+I\+R\+E\+C\+T\+I\+ON}} direction, int count=1, int feed\+Delay=\mbox{\hyperlink{config_8h_ad03aa78abd1ccf6ef0d5ce525fd2b6e3}{V\+E\+L\+O\+C\+I\+T\+Y\+\_\+\+S\+L\+OW}})
+\item 
+void \mbox{\hyperlink{namespace_training_ab47b64162371d09b3fb2196ad8a153a4}{fire\+Random}} (int count=1, int snelheid=\mbox{\hyperlink{config_8h_ad03aa78abd1ccf6ef0d5ce525fd2b6e3}{V\+E\+L\+O\+C\+I\+T\+Y\+\_\+\+S\+L\+OW}})
+\item 
+void \mbox{\hyperlink{namespace_training_a0361ba330b0610c92ce6be9384fbcbd0}{fire\+Left\+Right}} (int count=2, int velocity=\mbox{\hyperlink{config_8h_ad03aa78abd1ccf6ef0d5ce525fd2b6e3}{V\+E\+L\+O\+C\+I\+T\+Y\+\_\+\+S\+L\+OW}})
+\end{DoxyCompactItemize}
+
+
+\subsection{Enumeration Type Documentation}
+\mbox{\Hypertarget{namespace_training_a8174b4453347140eff551a8d9baec7ed}\label{namespace_training_a8174b4453347140eff551a8d9baec7ed}} 
+\index{Training@{Training}!DIRECTION@{DIRECTION}}
+\index{DIRECTION@{DIRECTION}!Training@{Training}}
+\subsubsection{\texorpdfstring{DIRECTION}{DIRECTION}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{namespace_training_a8174b4453347140eff551a8d9baec7ed}{Training\+::\+D\+I\+R\+E\+C\+T\+I\+ON}}}
+
+An enum to indicate the direction the robot should fire to
+
+This is especially useful in conjuction with random(min, max) \begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LEFT\_BACK@{LEFT\_BACK}!Training@{Training}}\index{Training@{Training}!LEFT\_BACK@{LEFT\_BACK}}}\mbox{\Hypertarget{namespace_training_a8174b4453347140eff551a8d9baec7eda4ecbc23a6f8f45a7de455ef6e04274e3}\label{namespace_training_a8174b4453347140eff551a8d9baec7eda4ecbc23a6f8f45a7de455ef6e04274e3}} 
+L\+E\+F\+T\+\_\+\+B\+A\+CK&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LEFT\_FRONT@{LEFT\_FRONT}!Training@{Training}}\index{Training@{Training}!LEFT\_FRONT@{LEFT\_FRONT}}}\mbox{\Hypertarget{namespace_training_a8174b4453347140eff551a8d9baec7edaae342582450ed44e65791fb0d972ea90}\label{namespace_training_a8174b4453347140eff551a8d9baec7edaae342582450ed44e65791fb0d972ea90}} 
+L\+E\+F\+T\+\_\+\+F\+R\+O\+NT&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RIGHT\_BACK@{RIGHT\_BACK}!Training@{Training}}\index{Training@{Training}!RIGHT\_BACK@{RIGHT\_BACK}}}\mbox{\Hypertarget{namespace_training_a8174b4453347140eff551a8d9baec7eda53e90be4adb3817244622e1d101f8d96}\label{namespace_training_a8174b4453347140eff551a8d9baec7eda53e90be4adb3817244622e1d101f8d96}} 
+R\+I\+G\+H\+T\+\_\+\+B\+A\+CK&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RIGHT\_FRONT@{RIGHT\_FRONT}!Training@{Training}}\index{Training@{Training}!RIGHT\_FRONT@{RIGHT\_FRONT}}}\mbox{\Hypertarget{namespace_training_a8174b4453347140eff551a8d9baec7eda890a26f63e2a0ee31c47407f8806190f}\label{namespace_training_a8174b4453347140eff551a8d9baec7eda890a26f63e2a0ee31c47407f8806190f}} 
+R\+I\+G\+H\+T\+\_\+\+F\+R\+O\+NT&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{namespace_training_a44e70e37dd1ef439a2e92c3b69ab3b79}\label{namespace_training_a44e70e37dd1ef439a2e92c3b69ab3b79}} 
+\index{Training@{Training}!feed@{feed}}
+\index{feed@{feed}!Training@{Training}}
+\subsubsection{\texorpdfstring{feed()}{feed()}}
+{\footnotesize\ttfamily void Training\+::feed (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+Feed a single ball to fire \mbox{\Hypertarget{namespace_training_a25b00da6c3717c5a9a7ade178154f8ab}\label{namespace_training_a25b00da6c3717c5a9a7ade178154f8ab}} 
+\index{Training@{Training}!fire@{fire}}
+\index{fire@{fire}!Training@{Training}}
+\subsubsection{\texorpdfstring{fire()}{fire()}}
+{\footnotesize\ttfamily void Training\+::fire (\begin{DoxyParamCaption}\item[{int}]{angle,  }\item[{int}]{velocity,  }\item[{int}]{count = {\ttfamily 1},  }\item[{int}]{feed\+Delay = {\ttfamily \mbox{\hyperlink{config_8h_ad03aa78abd1ccf6ef0d5ce525fd2b6e3}{V\+E\+L\+O\+C\+I\+T\+Y\+\_\+\+S\+L\+OW}}} }\end{DoxyParamCaption})}
+
+Fire a ball
+
+
+\begin{DoxyParams}{Parameters}
+{\em angle} & is the angle at which the ball should be fired \\
+\hline
+{\em velocity} & is the relative velocity the ball should be fired at \\
+\hline
+{\em count} & is the amount of balls that should be fired \\
+\hline
+{\em feed\+Delay} & is the amount of time in milliseconds between each reload \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{namespace_training_a34c927580fe04da9e782020f263cbb0d}\label{namespace_training_a34c927580fe04da9e782020f263cbb0d}} 
+\index{Training@{Training}!fireDirection@{fireDirection}}
+\index{fireDirection@{fireDirection}!Training@{Training}}
+\subsubsection{\texorpdfstring{fireDirection()}{fireDirection()}}
+{\footnotesize\ttfamily void Training\+::fire\+Direction (\begin{DoxyParamCaption}\item[{enum \mbox{\hyperlink{namespace_training_a8174b4453347140eff551a8d9baec7ed}{D\+I\+R\+E\+C\+T\+I\+ON}}}]{direction,  }\item[{int}]{count = {\ttfamily 1},  }\item[{int}]{feed\+Delay = {\ttfamily \mbox{\hyperlink{config_8h_ad03aa78abd1ccf6ef0d5ce525fd2b6e3}{V\+E\+L\+O\+C\+I\+T\+Y\+\_\+\+S\+L\+OW}}} }\end{DoxyParamCaption})}
+
+Fire a ball in a predefined direction
+
+
+\begin{DoxyParams}{Parameters}
+{\em direction} & is the location on the field where the ball should land \\
+\hline
+{\em count} & is the amount of balls that should be fired \\
+\hline
+{\em feed\+Delay} & is the amount of time in milliseconds between each reload \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{namespace_training_a0361ba330b0610c92ce6be9384fbcbd0}\label{namespace_training_a0361ba330b0610c92ce6be9384fbcbd0}} 
+\index{Training@{Training}!fireLeftRight@{fireLeftRight}}
+\index{fireLeftRight@{fireLeftRight}!Training@{Training}}
+\subsubsection{\texorpdfstring{fireLeftRight()}{fireLeftRight()}}
+{\footnotesize\ttfamily void Training\+::fire\+Left\+Right (\begin{DoxyParamCaption}\item[{int}]{count = {\ttfamily 2},  }\item[{int}]{velocity = {\ttfamily \mbox{\hyperlink{config_8h_ad03aa78abd1ccf6ef0d5ce525fd2b6e3}{V\+E\+L\+O\+C\+I\+T\+Y\+\_\+\+S\+L\+OW}}} }\end{DoxyParamCaption})}
+
+Alternate between the left and right direction but fire randomly further or closer by.
+
+
+\begin{DoxyParams}{Parameters}
+{\em count} & is the amount of balls that should be fired \\
+\hline
+{\em feed\+Delay} & is the amount of time in milliseconds between each reload \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{namespace_training_ab47b64162371d09b3fb2196ad8a153a4}\label{namespace_training_ab47b64162371d09b3fb2196ad8a153a4}} 
+\index{Training@{Training}!fireRandom@{fireRandom}}
+\index{fireRandom@{fireRandom}!Training@{Training}}
+\subsubsection{\texorpdfstring{fireRandom()}{fireRandom()}}
+{\footnotesize\ttfamily void Training\+::fire\+Random (\begin{DoxyParamCaption}\item[{int}]{count = {\ttfamily 1},  }\item[{int}]{snelheid = {\ttfamily \mbox{\hyperlink{config_8h_ad03aa78abd1ccf6ef0d5ce525fd2b6e3}{V\+E\+L\+O\+C\+I\+T\+Y\+\_\+\+S\+L\+OW}}} }\end{DoxyParamCaption})}
+
+Fire a ball in a random direction
+
+
+\begin{DoxyParams}{Parameters}
+{\em count} & is the amount of balls that should be fired \\
+\hline
+{\em feed\+Delay} & is the amount of time in milliseconds between each reload \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{namespace_training_a5780d5517d3844d33e2b1580a357f5d7}\label{namespace_training_a5780d5517d3844d33e2b1580a357f5d7}} 
+\index{Training@{Training}!init@{init}}
+\index{init@{init}!Training@{Training}}
+\subsubsection{\texorpdfstring{init()}{init()}}
+{\footnotesize\ttfamily void Training\+::init (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+Initialize the motor and servo pins \mbox{\Hypertarget{namespace_training_ae351ffcdd0f27d4185db28a1a15c03f4}\label{namespace_training_ae351ffcdd0f27d4185db28a1a15c03f4}} 
+\index{Training@{Training}!setFireSpeed@{setFireSpeed}}
+\index{setFireSpeed@{setFireSpeed}!Training@{Training}}
+\subsubsection{\texorpdfstring{setFireSpeed()}{setFireSpeed()}}
+{\footnotesize\ttfamily void Training\+::set\+Fire\+Speed (\begin{DoxyParamCaption}\item[{int}]{motor,  }\item[{int}]{velocity }\end{DoxyParamCaption})}
+
+Set the speed of one of the motors
+
+
+\begin{DoxyParams}{Parameters}
+{\em motor} & is the pin of the motor of which the velocity should be set \\
+\hline
+{\em velocity} & a value f-\/ranging from 0 to 255 indicating the relative speed at which the motor should turn \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{namespace_training_a96a1d8388782f92fc61635d91ef9c897}\label{namespace_training_a96a1d8388782f92fc61635d91ef9c897}} 
+\index{Training@{Training}!setServo@{setServo}}
+\index{setServo@{setServo}!Training@{Training}}
+\subsubsection{\texorpdfstring{setServo()}{setServo()}}
+{\footnotesize\ttfamily void Training\+::set\+Servo (\begin{DoxyParamCaption}\item[{int}]{servo,  }\item[{float}]{angle }\end{DoxyParamCaption})}
+
+Set the angle of one of the servos
+
+
+\begin{DoxyParams}{Parameters}
+{\em servo} & is the pin of the servo of which the angle should be set \\
+\hline
+{\em angle} & is the angle the servo will be set to \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{namespace_training_a591534cde78f019ac71e59726b245d13}\label{namespace_training_a591534cde78f019ac71e59726b245d13}} 
+\index{Training@{Training}!stopMotors@{stopMotors}}
+\index{stopMotors@{stopMotors}!Training@{Training}}
+\subsubsection{\texorpdfstring{stopMotors()}{stopMotors()}}
+{\footnotesize\ttfamily void Training\+::stop\+Motors (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+Stop the motors 

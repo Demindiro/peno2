@@ -1,38 +1,30 @@
+/** @file */ 
+
 #include "config.h"
 
 namespace Speedometer {
 
-  static unsigned long waitForChange(int pin) {
+  static unsigned long waitForChange(int pin, int threshold) {
     int analogValue = analogRead(pin);
-#ifndef NDEBUG
-    Serial.print("Value:      ");
-    Serial.println(analogValue);
-#endif
 
-    unsigned long start = millis();
+    DEBUG(F("Value:      "));
+    DEBUGLN(analogValue);
+
+    unsigned long start = micros();
 
     // The signal *should* go from high to low
-    while (analogValue - analogRead(pin) < SPEEDOMETER_THRESHOLD) {
+    while (analogValue - analogRead(pin) < threshold) {
 
-#ifndef NDEBUG
-    Serial.print("New value:  ");
-    Serial.println(analogRead(pin));
-#endif
-
-      if (millis() - start > SPEEDOMETER_TIMEOUT) {
-#ifndef NDEBUG
-        Serial.println("Timeout");
-#endif
+      if (micros() - start > SPEEDOMETER_TIMEOUT) {
+        DEBUGLN(F("Timeout"));
         return -1;
       }
     }
 
-#ifndef NDEBUG
-    Serial.print("Last value: ");
-    Serial.println(analogRead(pin));
-#endif
+    DEBUG(F("Last value: "));
+    DEBUGLN(analogRead(pin));
     
-    return millis();
+    return micros();
   }
 
 
@@ -53,26 +45,22 @@ namespace Speedometer {
     unsigned long firstTime, secondTime, start;
     int analogValue;
 
-    firstTime  = waitForChange(SPEEDOMETER_LDR_FIRST);
+    firstTime  = waitForChange(SPEEDOMETER_LDR_FIRST , SPEEDOMETER_THRESHOLD_FIRST);
     if (firstTime == -1)
       return -1;
 
-#ifndef NDEBUG
-    Serial.print("First  sensor time: ");
-    Serial.println(firstTime);
-#endif
+    DEBUG(F("First  sensor time: "));
+    DEBUGLN(firstTime);
 
-    secondTime = waitForChange(SPEEDOMETER_LDR_SECOND);  
+    secondTime = waitForChange(SPEEDOMETER_LDR_SECOND, SPEEDOMETER_THRESHOLD_SECOND);  
     if (secondTime == -1)
       return -1;
 
-#ifndef NDEBUG
-    Serial.print("Second sensor time: ");
-    Serial.println(secondTime);
-#endif
+    DEBUG(F("Second sensor time: "));
+    DEBUGLN(secondTime);
   
     // Calculate the final velocity
-    return SPEEDOMETER_DISTANCE / ((secondTime - firstTime) / 1000.0f);
+    return SPEEDOMETER_DISTANCE / ((secondTime - firstTime) / 1000000.0);
   }
 
 }

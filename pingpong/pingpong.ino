@@ -1,3 +1,5 @@
+/** @file */ 
+
 #include <SoftPWM_timer.h>
 #include <SoftPWM.h>
 
@@ -9,6 +11,23 @@
 #include "training.h"
 #include "led.h"
 #include "speedometer.h"
+#include "debug.h"
+
+
+//#ifndef NDEBUG
+#if 0
+// TODO: figure out why the 
+void __assert(const char *__func, const char *__file, int __lineno, const char *expr) {
+  char strline[8];
+  itoa(__lineno, strline, 8);
+  const char **s = {"Assertion failure: ", __func, " @ ", __file, ":", __lineno, " (", expr, " )\n", NULL};
+  for (const char *s = *strs; s != NULL; s++)
+    Serial.print(s);
+  Serial.flush();
+  abort();
+}
+#endif
+
 
 
 /************************
@@ -38,11 +57,15 @@ void setPassword(char *data, size_t len) {
  *   - 1: Fire to the right
  */
 void trainingDefault(char *data, size_t len) {
-  assert(len == 3);
   // LSB first:
   // - Bit 0: Back/front
   // - Bit 1: Left/right
-  Training::fireDirection(data[1] & (data[2] << 1), data[0]);
+  char near = data[1];
+  char left = data[2];
+  signed char spin = data[3];
+  int  translated = near | (left << 1);
+  DEBUG(translated, BIN);
+  Training::fireDirection(translated, data[0], VELOCITY_SLOW, spin);
 }
 
 
@@ -57,7 +80,7 @@ void trainingDefault(char *data, size_t len) {
  *   - v: Set the ball velocity to <v>
  */
 void trainingManual(char *data, size_t len) {
-  assert(len == 3);
+  //assert(len == 3);
   Training::fire(data[2], data[1], data[0]);
 }
 
@@ -80,22 +103,21 @@ void trainingRandom(char *data, size_t len) {
 
 void setPlatformServo(char *data, unsigned char len) {
   //assert(len == 1);
-  Serial.print("Platform Servo: ");
-  Serial.println((int)data[0]);
+  DEBUG(F("Platform Servo: "));
+  DEBUGLN((int)data[0]);
   Training::setServo(7, data[0]);
 }
 
 void setFireSpeed(char *data, unsigned char len) {
-  Serial.print("Fire Speed: ");
-  Serial.println((int)data[0]);
+  DEBUG(F("Fire Speed: "));
+  DEBUGLN((int)data[0]);
   Training::setFireSpeed(5, data[0]);
   Training::setFireSpeed(6, data[0]);
 }
 
 void stopMotors(char *data, unsigned char len) {
-#ifndef NDEBUG
-  Serial.println("Stopping motor");
-#endif
+  DEBUGLN(F("Stopping motor"));
+  Training::stopMotors();
 }
 
 
@@ -105,14 +127,12 @@ void stopMotors(char *data, unsigned char len) {
  */
 
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(SERIAL_BAUD_RATE);
+  DEBUGLN(F("Initializing..."));
   SoftPWMBegin(SOFTPWM_NORMAL);
-  /*
   Bluetooth::init();
   Training::init();
   Led::init();
-  */
-  /*
   Bluetooth::setCallback( 0, trainingDefault);
   Bluetooth::setCallback( 1, trainingManual);
   Bluetooth::setCallback( 2, trainingRandom);
@@ -122,29 +142,12 @@ void setup() {
   Bluetooth::setCallback('S', setPlatformServo);
   Bluetooth::setCallback('S', setFireSpeed);  
   Bluetooth::setCallback('T', trainingRandom);
-  */
 }
 
 
 void loop() {
+  //Training::setServo(PIN_SERVO_PLATFORM, 0);
   //Bluetooth::listen(-1);
-  /*
-  Training::setServo(PIN_SERVO_PLATFORM, 60);
-  delay(4500);
-  Training::setServo(PIN_SERVO_PLATFORM, -60);
-  delay(4500);
-  */
-//  while (1) {
-/*    Serial.println(analogRead(SPEEDOMETER_LDR_FIRST));
-    Serial.println(analogRead(SPEEDOMETER_LDR_SECOND));
-    Serial.println("======");*/
-    //Serial.println(Speedometer::measureVelocity());
-    //delay(1000);
-  //}      setServo(PIN_SERVO_FEED, SERVO_FEED_OPEN);
-    //Bluetooth::listen(SERVO_TURN_TIME);
-    delay(SERVO_TURN_TIME);
-    Training::setServo(PIN_SERVO_PLATFORM, SERVO_FEED_CLOSED);
-    //Bluetooth::listen(SERVO_TURN_TIME);
-    delay(SERVO_TURN_TIME);
-    Training::setServo(PIN_SERVO_PLATFORM, SERVO_FEED_OPEN);
+  delay(100);
+  Led::ballCountFeedback();
 }

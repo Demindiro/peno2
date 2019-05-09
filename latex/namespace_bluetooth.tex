@@ -1,0 +1,159 @@
+\hypertarget{namespace_bluetooth}{}\section{Bluetooth Namespace Reference}
+\label{namespace_bluetooth}\index{Bluetooth@{Bluetooth}}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{namespace_bluetooth_af5eca873435207a9ebc7d940f94b4464}{init}} (void)
+\item 
+void \mbox{\hyperlink{namespace_bluetooth_ac0b875e86220d5ad1a194fd9503494ff}{set\+Callback}} (char id, void($\ast$callback)(char $\ast$data, unsigned char len))
+\item 
+bool \mbox{\hyperlink{namespace_bluetooth_a3fe8dfbf207574a954a161112d2d5210}{is\+Module\+Connected}} (void)
+\item 
+bool \mbox{\hyperlink{namespace_bluetooth_a339db81b59168385379a2d0872d1c1b8}{is\+Connected}} ()
+\item 
+void \mbox{\hyperlink{namespace_bluetooth_a9ad33cca29bf063358e0f7dfbefdd38e}{send}} (char $\ast$data, unsigned char len, unsigned char code=0)
+\item 
+void \mbox{\hyperlink{namespace_bluetooth_a4720c670f39b68ad09ab0426a586684e}{listen}} (unsigned long listen\+Timeout, unsigned long accept\+Timeout=\mbox{\hyperlink{config_8h_a1abf7783a21bd29cabcbde11b37d9739}{B\+L\+U\+E\+T\+O\+O\+T\+H\+\_\+\+D\+E\+F\+A\+U\+L\+T\+\_\+\+T\+I\+M\+E\+O\+UT}})
+\item 
+void \mbox{\hyperlink{namespace_bluetooth_aa4106d9b9a752c4dbf6ae8e098a4a5b6}{get\+Password}} (char $\ast$out)
+\item 
+void \mbox{\hyperlink{namespace_bluetooth_a3a7424882a0f6f3ea6e6cb3ae363ee58}{get\+Name}} (char $\ast$out)
+\item 
+void \mbox{\hyperlink{namespace_bluetooth_a180dbaf21f449e085983a7d2443d24f6}{set\+Password}} (char $\ast$pin)
+\item 
+void \mbox{\hyperlink{namespace_bluetooth_a75f8c76cf9fea1f13426ada5be430673}{set\+Name}} (char $\ast$name)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{namespace_bluetooth_a3a7424882a0f6f3ea6e6cb3ae363ee58}\label{namespace_bluetooth_a3a7424882a0f6f3ea6e6cb3ae363ee58}} 
+\index{Bluetooth@{Bluetooth}!getName@{getName}}
+\index{getName@{getName}!Bluetooth@{Bluetooth}}
+\subsubsection{\texorpdfstring{getName()}{getName()}}
+{\footnotesize\ttfamily void Bluetooth\+::get\+Name (\begin{DoxyParamCaption}\item[{char $\ast$}]{out }\end{DoxyParamCaption})}
+
+Get the name of the \mbox{\hyperlink{namespace_bluetooth}{Bluetooth}} module
+
+
+\begin{DoxyParams}{Parameters}
+{\em out} & is a 21 bytes long buffer to copy the name to \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{namespace_bluetooth_aa4106d9b9a752c4dbf6ae8e098a4a5b6}\label{namespace_bluetooth_aa4106d9b9a752c4dbf6ae8e098a4a5b6}} 
+\index{Bluetooth@{Bluetooth}!getPassword@{getPassword}}
+\index{getPassword@{getPassword}!Bluetooth@{Bluetooth}}
+\subsubsection{\texorpdfstring{getPassword()}{getPassword()}}
+{\footnotesize\ttfamily void Bluetooth\+::get\+Password (\begin{DoxyParamCaption}\item[{char $\ast$}]{out }\end{DoxyParamCaption})}
+
+Get the password of the \mbox{\hyperlink{namespace_bluetooth}{Bluetooth}} module
+
+
+\begin{DoxyParams}{Parameters}
+{\em out} & is a 4 bytes long buffer to copy the password to \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{namespace_bluetooth_af5eca873435207a9ebc7d940f94b4464}\label{namespace_bluetooth_af5eca873435207a9ebc7d940f94b4464}} 
+\index{Bluetooth@{Bluetooth}!init@{init}}
+\index{init@{init}!Bluetooth@{Bluetooth}}
+\subsubsection{\texorpdfstring{init()}{init()}}
+{\footnotesize\ttfamily void Bluetooth\+::init (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+Initialize the \mbox{\hyperlink{namespace_bluetooth}{Bluetooth}} module \mbox{\Hypertarget{namespace_bluetooth_a339db81b59168385379a2d0872d1c1b8}\label{namespace_bluetooth_a339db81b59168385379a2d0872d1c1b8}} 
+\index{Bluetooth@{Bluetooth}!isConnected@{isConnected}}
+\index{isConnected@{isConnected}!Bluetooth@{Bluetooth}}
+\subsubsection{\texorpdfstring{isConnected()}{isConnected()}}
+{\footnotesize\ttfamily bool Bluetooth\+::is\+Connected (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+W\+IP\+: Check if a controller is connected
+
+\begin{DoxyReturn}{Returns}
+true if connected, otherwise false 
+\end{DoxyReturn}
+\mbox{\Hypertarget{namespace_bluetooth_a3fe8dfbf207574a954a161112d2d5210}\label{namespace_bluetooth_a3fe8dfbf207574a954a161112d2d5210}} 
+\index{Bluetooth@{Bluetooth}!isModuleConnected@{isModuleConnected}}
+\index{isModuleConnected@{isModuleConnected}!Bluetooth@{Bluetooth}}
+\subsubsection{\texorpdfstring{isModuleConnected()}{isModuleConnected()}}
+{\footnotesize\ttfamily bool Bluetooth\+::is\+Module\+Connected (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+W\+IP\+: Check if the module is connected
+
+N\+OT I\+M\+P\+L\+E\+M\+E\+N\+T\+ED
+
+\begin{DoxyReturn}{Returns}
+true if connected, otherwise false 
+\end{DoxyReturn}
+\mbox{\Hypertarget{namespace_bluetooth_a4720c670f39b68ad09ab0426a586684e}\label{namespace_bluetooth_a4720c670f39b68ad09ab0426a586684e}} 
+\index{Bluetooth@{Bluetooth}!listen@{listen}}
+\index{listen@{listen}!Bluetooth@{Bluetooth}}
+\subsubsection{\texorpdfstring{listen()}{listen()}}
+{\footnotesize\ttfamily void Bluetooth\+::listen (\begin{DoxyParamCaption}\item[{unsigned long}]{listen\+Timeout,  }\item[{unsigned long}]{accept\+Timeout = {\ttfamily \mbox{\hyperlink{config_8h_a1abf7783a21bd29cabcbde11b37d9739}{B\+L\+U\+E\+T\+O\+O\+T\+H\+\_\+\+D\+E\+F\+A\+U\+L\+T\+\_\+\+T\+I\+M\+E\+O\+UT}}} }\end{DoxyParamCaption})}
+
+Wait for input from the controller
+
+We can\textquotesingle{}t use a timer \+:D /s
+
+
+\begin{DoxyParams}{Parameters}
+{\em listen\+Timeout} & is the delay to wait for a message before timing out \\
+\hline
+{\em accept\+Timeout} & is the delay to wait between bytes sent before returning E\+\_\+\+T\+I\+M\+E\+O\+UT \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{namespace_bluetooth_a9ad33cca29bf063358e0f7dfbefdd38e}\label{namespace_bluetooth_a9ad33cca29bf063358e0f7dfbefdd38e}} 
+\index{Bluetooth@{Bluetooth}!send@{send}}
+\index{send@{send}!Bluetooth@{Bluetooth}}
+\subsubsection{\texorpdfstring{send()}{send()}}
+{\footnotesize\ttfamily void Bluetooth\+::send (\begin{DoxyParamCaption}\item[{char $\ast$}]{data,  }\item[{unsigned char}]{len,  }\item[{unsigned char}]{code = {\ttfamily 0} }\end{DoxyParamCaption})}
+
+Send data back to the controller
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & is a pointer to the data to send \\
+\hline
+{\em len} & is the length of the data to send (in bytes) \\
+\hline
+{\em code} & is the status code to return \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{namespace_bluetooth_ac0b875e86220d5ad1a194fd9503494ff}\label{namespace_bluetooth_ac0b875e86220d5ad1a194fd9503494ff}} 
+\index{Bluetooth@{Bluetooth}!setCallback@{setCallback}}
+\index{setCallback@{setCallback}!Bluetooth@{Bluetooth}}
+\subsubsection{\texorpdfstring{setCallback()}{setCallback()}}
+{\footnotesize\ttfamily void Bluetooth\+::set\+Callback (\begin{DoxyParamCaption}\item[{char}]{id,  }\item[{void($\ast$)(char $\ast$data, unsigned char len)}]{callback }\end{DoxyParamCaption})}
+
+Register a callback
+
+
+\begin{DoxyParams}{Parameters}
+{\em id} & is the byte by which the callback can be called \\
+\hline
+{\em callback} & is the function which will be called \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{namespace_bluetooth_a75f8c76cf9fea1f13426ada5be430673}\label{namespace_bluetooth_a75f8c76cf9fea1f13426ada5be430673}} 
+\index{Bluetooth@{Bluetooth}!setName@{setName}}
+\index{setName@{setName}!Bluetooth@{Bluetooth}}
+\subsubsection{\texorpdfstring{setName()}{setName()}}
+{\footnotesize\ttfamily void Bluetooth\+::set\+Name (\begin{DoxyParamCaption}\item[{char $\ast$}]{name }\end{DoxyParamCaption})}
+
+Set the name of the \mbox{\hyperlink{namespace_bluetooth}{Bluetooth}} module
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & is a null-\/terminated string. If the string is longer than 20 bytes (excluding null-\/terminator), the remainder of the string is truncated \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{namespace_bluetooth_a180dbaf21f449e085983a7d2443d24f6}\label{namespace_bluetooth_a180dbaf21f449e085983a7d2443d24f6}} 
+\index{Bluetooth@{Bluetooth}!setPassword@{setPassword}}
+\index{setPassword@{setPassword}!Bluetooth@{Bluetooth}}
+\subsubsection{\texorpdfstring{setPassword()}{setPassword()}}
+{\footnotesize\ttfamily void Bluetooth\+::set\+Password (\begin{DoxyParamCaption}\item[{char $\ast$}]{pin }\end{DoxyParamCaption})}
+
+Set the password of the \mbox{\hyperlink{namespace_bluetooth}{Bluetooth}} module
+
+
+\begin{DoxyParams}{Parameters}
+{\em pin} & is a 4 bytes long buffer \\
+\hline
+\end{DoxyParams}

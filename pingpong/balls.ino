@@ -1,3 +1,4 @@
+/** @file */ 
 
 __attribute__((constructor))
 static void _setup(void) {
@@ -15,9 +16,10 @@ namespace Balls {
   
     pinMode(BALLS_ECHO_PIN, INPUT);
     long duration = pulseIn(BALLS_ECHO_PIN, HIGH);
+
+    return duration * BALLS_CALIBRATION_FACTOR;
   
-    //int balls = duration * BALLS_CALIBRATION_FACTOR;
+    //int balls = MAX_BALL_COUNT - duration * BALLS_CALIBRATION_FACTOR;
     //return balls > 0 ? balls : 0;
-    return 0;
   }
 }
