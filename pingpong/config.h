@@ -68,7 +68,7 @@ int none; // TODO
 #define MAX_BALL_COUNT             10
 #define BALLS_TRIG_PIN             A3
 #define BALLS_ECHO_PIN             A2
-#define BALLS_CALIBRATION_FACTOR   (0.5 / 29.1 * (45.0 / 28.0))
+#define BALLS_CALIBRATION_FACTOR    (0.5 / 29.1 * (45.0 / 28.0))
 
 
 

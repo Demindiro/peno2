@@ -20,8 +20,7 @@ namespace Balls {
     pinMode(BALLS_ECHO_PIN, INPUT);
     long duration = pulseIn(BALLS_ECHO_PIN, HIGH);
   
-    //int balls = duration * BALLS_CALIBRATION_FACTOR;
-    //return balls > 0 ? balls : 0;
-    return 0;
+    int balls = duration * BALL_CALIBRATION_FACTOR;
+    return balls > 0 ? balls : 0;
   }
 }

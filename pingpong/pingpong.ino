@@ -106,7 +106,7 @@ void setup() {
   SoftPWMBegin(SOFTPWM_NORMAL);
   Bluetooth::setCallback(0, trainingDefault);
   Bluetooth::setCallback(1, trainingManual);
-  Bluetooth::setCallback(2, trainingRandom);
+  Bluetooth::setCallback(3, trainingRandom);
   Bluetooth::setCallback('A', echo);
   Bluetooth::setCallback('P', setPassword);
   Bluetooth::setCallback('S', setPlatformServo);
@@ -118,4 +118,5 @@ void setup() {
 
 void loop() {
   Bluetooth::listen(-1);
+  //Led::ballCountFeedback();
 }

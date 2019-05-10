@@ -31,10 +31,7 @@ namespace Training {
   }
 
 
-  void setServo(int servo, float angle) {
-    Serial.print("Angle: ");
-    Serial.print(angle);
-    Serial.print(" --> Mapped angle: ");
+  void setServo(int servo, int angle) {
     Serial.println(constrain(map(angle, -90, 90, 14, 35), 14, 35));
     SoftPWMSet(servo, constrain(map(angle, -90, 90, 14, 35), 14, 35));
   }
@@ -49,16 +46,13 @@ namespace Training {
   // Nomnomnom
   static void feed(void){
       setServo(PIN_SERVO_FEED, SERVO_FEED_OPEN);
-      //Bluetooth::listen(SERVO_TURN_TIME);
-      delay(SERVO_TURN_TIME);
+      Bluetooth::listen(SERVO_TURN_TIME);
       setServo(PIN_SERVO_FEED, SERVO_FEED_CLOSED);
-      //Bluetooth::listen(SERVO_TURN_TIME);
-      delay(SERVO_TURN_TIME);
+      Bluetooth::listen(SERVO_TURN_TIME);
   }
 
 
-  __attribute__((constructor))
-  static void _init(void) {
+  void init(void) {
     pinMode(PIN_MOTOR_LEFT, OUTPUT);
     pinMode(PIN_MOTOR_RIGHT, OUTPUT);
     randomSeed(analogRead(PIN_EMPTY_ANALOG));
@@ -70,15 +64,16 @@ namespace Training {
     setFireSpeed(PIN_MOTOR_RIGHT, velocity);
 
     setServo(PIN_SERVO_PLATFORM, angle);
-          
+
     for(int i = 0; i < count; i++) {
+      Serial.println(count);
+      Serial.println(i);
       feed();
-      delay(feedDelay);
-      //Bluetooth::listen(feedDelay);
+      Bluetooth::listen(feedDelay);
     }
   }
 
-  
+
   void fireDirection(enum DIRECTION direction, int count = 1, int feedDelay = VELOCITY_SLOW){
     int velocity, angle;
 
@@ -104,8 +99,7 @@ namespace Training {
         velocity = VELOCITY_BACK;
         break;
       default:
-        Serial.println("This cannot happen :o");
-        delay(1000);
+        Serial.println("DEFEFE");
         assert(0);
     }
 
@@ -120,8 +114,8 @@ namespace Training {
   
   void fireLeftRight(int count = 1, int feedDelay = VELOCITY_SLOW){
     for(int i = 0; i <= count; i++) {
-      fireDirection((enum DIRECTION)random(0,2), 1, feedDelay);
-      fireDirection((enum DIRECTION)random(2,4), 1, feedDelay);
+      fireDirection((enum DIRECTION)random(1,3), 1, feedDelay);
+      fireDirection((enum DIRECTION)random(3,5), 1, feedDelay);
     }
     stopMotors();
   }
