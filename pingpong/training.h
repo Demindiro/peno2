@@ -26,7 +26,7 @@ namespace Training {
    * @param velocity a value f-ranging from 0 to 255 indicating the relative
    *   speed at which the motor should turn
    */
-  void setFireSpeed(int motor, int velocity);
+  void setFireSpeed(int velocityLeft, int velocityRight);
 
   /**
    * Set the angle of one of the servos
@@ -59,7 +59,7 @@ namespace Training {
    * @param count is the amount of balls that should be fired
    * @param feedDelay is the amount of time in milliseconds between each reload
    */
-  void fire(int angle, int velocityLeft, int velocityRight, int count = 1, int feedDelay = VELOCITY_SLOW);
+  void fire(int angle, int velocityLeft, int velocityRight, int count = 1, int feedDelay = VELOCITY_SLOW, bool spinUp = true);
 
   /**
    * Fire a ball in a predefined direction
@@ -68,7 +68,7 @@ namespace Training {
    * @param count is the amount of balls that should be fired
    * @param feedDelay is the amount of time in milliseconds between each reload
    */
-  void fireDirection(enum DIRECTION direction, int count = 1, int feedDelay = VELOCITY_SLOW, int spin = 0);
+  void fireDirection(enum DIRECTION direction, int count = 1, int feedDelay = VELOCITY_SLOW, int spin = 0, bool spinUp = true);
 
   /**
    * Fire a ball in a random direction

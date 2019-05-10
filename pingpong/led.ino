@@ -17,6 +17,12 @@ namespace Led {
   }
 
   void set(int r, int g, int b) {
+    DEBUG(F("RGB: "));
+    DEBUG(r);
+    DEBUG(F(", "));
+    DEBUG(g);
+    DEBUG(F(", "));
+    DEBUGLN(b);
     SoftPWMSet(LED_PIN_RED  , 255 - r);
     SoftPWMSet(LED_PIN_GREEN, 255 - map(g, 0, 255, 0, 50)); // too bright  without scaling
     SoftPWMSet(LED_PIN_BLUE , 255 - b);

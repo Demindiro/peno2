@@ -14,6 +14,7 @@
 #include "debug.h"
 
 
+
 //#ifndef NDEBUG
 #if 0
 // TODO: figure out why the 
@@ -55,17 +56,23 @@ void setPassword(char *data, size_t len) {
  * - Byte 2:
  *   - 0: Fire to the left
  *   - 1: Fire to the right
+ * - Byte 3:
+ *   -  < 0: Left spin
+ *   - == 0: No spin
+ *   -  > 0: Right spin
  */
 void trainingDefault(char *data, size_t len) {
   // LSB first:
   // - Bit 0: Back/front
   // - Bit 1: Left/right
-  char near = data[1];
-  char left = data[2];
-  signed char spin = data[3];
-  int  translated = near | (left << 1);
-  DEBUG(translated, BIN);
-  Training::fireDirection(translated, data[0], VELOCITY_SLOW, spin);
+  char        count      = data[0];
+  char        near       = data[1];
+  char        left       = data[2];
+  signed char spin       = data[3];
+  char        translated = near | (left << 1);
+  if (spin == 2)
+    spin = -1;
+  Training::fireDirection(translated, count, VELOCITY_SLOW, -spin);
 }
 
 
@@ -80,7 +87,6 @@ void trainingDefault(char *data, size_t len) {
  *   - v: Set the ball velocity to <v>
  */
 void trainingManual(char *data, size_t len) {
-  //assert(len == 3);
   Training::fire(data[2], data[1], data[0]);
 }
 
@@ -92,7 +98,6 @@ void trainingManual(char *data, size_t len) {
  *   - <n>: Fire <n> balls
  */
 void trainingRandom(char *data, size_t len) {
-  //assert(len == 1);
   Training::fireRandom(data[0]);
 }
 
@@ -146,8 +151,13 @@ void setup() {
 
 
 void loop() {
-  //Training::setServo(PIN_SERVO_PLATFORM, 0);
-  //Bluetooth::listen(-1);
-  delay(100);
+
+  Training::setServo(PIN_SERVO_PLATFORM, 0);
+  Training::stopMotors();
+#ifndef NDEBUG
+  Bluetooth::listen(500);
+#else
+  Bluetooth::listen(100);
+#endif
   Led::ballCountFeedback();
 }

@@ -35,19 +35,21 @@
  */
 #define PIN_SERVO_PLATFORM   7
 #define PIN_SERVO_FEED      11
-#define PIN_MOTOR_LEFT       5
-#define PIN_MOTOR_RIGHT      6
+#define PIN_MOTOR_LEFT       6
+#define PIN_MOTOR_RIGHT      5
+#define MOTOR_LEFT_SCALING   1
+#define MOTOR_RIGHT_SCALING  0.84
 #define PIN_EMPTY_ANALOG     A6
 #define SERVO_SCALING        (30.0f / 60.0f) // 
 
-#define MOTOR_SPINUP_TIME 1000  // In milliseconds
+#define MOTOR_SPINUP_TIME 2000  // In milliseconds
 #define SERVO_TURN_TIME    900  // In milliseconds
-#define VELOCITY_FRONT     170
-#define VELOCITY_BACK      200
+#define VELOCITY_FRONT     175
+#define VELOCITY_BACK      220
 #define ANGLE_LEFT_FRONT    10
 #define ANGLE_RIGHT_FRONT  -10
-#define ANGLE_LEFT_BACK      3
-#define ANGLE_RIGHT_BACK    -3
+#define ANGLE_LEFT_BACK      8
+#define ANGLE_RIGHT_BACK    -8
 #define SERVO_FEED_OPEN    -70
 #define SERVO_FEED_CLOSED   30
 
@@ -70,13 +72,13 @@
 #define MAX_BALL_COUNT             10
 #define BALLS_TRIG_PIN             A3
 #define BALLS_ECHO_PIN             A2
-#define BALLS_CALIBRATION_FACTOR   (1 / 40.0 / 4.0)
+#define BALLS_CALIBRATION_FACTOR   (1 / 40.0 / 4.6)
 
 
 /*********
  * Serial
  */
-#define SERIAL_BAUD_RATE   9600
+#define SERIAL_BAUD_RATE   230400
 
 
 #endif

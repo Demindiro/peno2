@@ -16,10 +16,8 @@ namespace Balls {
   
     pinMode(BALLS_ECHO_PIN, INPUT);
     long duration = pulseIn(BALLS_ECHO_PIN, HIGH);
-
-    return duration * BALLS_CALIBRATION_FACTOR;
   
-    //int balls = MAX_BALL_COUNT - duration * BALLS_CALIBRATION_FACTOR;
-    //return balls > 0 ? balls : 0;
+    int balls = MAX_BALL_COUNT - duration * BALLS_CALIBRATION_FACTOR;
+    return balls > 0 ? balls : 0;
   }
 }

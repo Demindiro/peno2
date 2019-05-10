@@ -56,24 +56,18 @@ namespace Bluetooth {
     if (!hc06.available())
       return;
 
-#ifndef NDEBUG
-    Serial.println("Receiving message");
-#endif
+    DEBUGLN(F("Receiving message"));
 
     unsigned char id  = hc06.read();
     if (!waitForData(timeout))
       return;
-#ifndef NDEBUG
-    Serial.print("ID: ");
-    Serial.println((int)id);
-#endif
+    DEBUG(F("ID: "));
+    DEBUGLN((int)id);
     unsigned char len = hc06.read();
     if (!waitForData(timeout))
       return;
-#ifndef NDEBUG
-    Serial.print("Length: ");
-    Serial.println((int)len);
-#endif
+    DEBUG(F("Length: "));
+    DEBUGLN((int)len);
 
     unsigned char index = 0;
     char buf[len];
@@ -150,12 +144,11 @@ namespace Bluetooth {
     hc06.write(code);
     hc06.write(len);
     hc06.write(data, len);
-#ifndef NDEBUG
-    Serial.print("Sending: ");
-    Serial.write(data, len);
-    Serial.print("\nStatus: ");
-    Serial.println(code);
-#endif
+    DEBUG(F("Sending: "));
+    DEBUGW(data, len);
+    DEBUGLN();
+    DEBUG(F("Status: "));
+    DEBUGLN(code);
   }
 
 

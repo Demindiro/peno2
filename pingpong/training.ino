@@ -24,14 +24,11 @@ namespace Training {
 
   static bool _stopMotors = false;
   
-  
-  void setFireSpeed(int pin, int velocity){
-    analogWrite(pin, constrain(velocity, 0, 255));
-  }
 
-  void _setFireSpeed(int velocityLeft, int velocityRight){
-    analogWrite(PIN_MOTOR_LEFT, constrain(velocityLeft , 0, 255));
-    analogWrite(PIN_MOTOR_LEFT, constrain(velocityRight, 0, 255));
+  void setFireSpeed(int velocityLeft, int velocityRight) {
+    _stopMotors = false;
+    analogWrite(PIN_MOTOR_LEFT, constrain(velocityLeft , 0, 255 * MOTOR_LEFT_SCALING));
+    analogWrite(PIN_MOTOR_RIGHT, constrain(velocityRight, 0, 255 * MOTOR_RIGHT_SCALING));
   }
 
 
@@ -46,17 +43,15 @@ namespace Training {
 
 
   void stopMotors() {
-    setFireSpeed(PIN_MOTOR_LEFT, 0);
-    setFireSpeed(PIN_MOTOR_RIGHT, 0);
-    _stopMotors = true;
+    setFireSpeed(0, 0);
+    //_stopMotors = true;
   }
 
 
   // Nomnomnom
   void feed(void){
       setServo(PIN_SERVO_FEED, SERVO_FEED_OPEN);
-      delay(SERVO_TURN_TIME);
-//      Bluetooth::listen(SERVO_TURN_TIME);
+      Bluetooth::listen(SERVO_TURN_TIME);
       setServo(PIN_SERVO_FEED, SERVO_FEED_CLOSED);
   }
 
@@ -70,42 +65,51 @@ namespace Training {
   }
 
 
-  void fire(int angle, int velocityLeft, int velocityRight, int count = 1, int feedDelay = VELOCITY_SLOW) {
-#ifndef NDEBUG
+  void fire(int angle, int velocityLeft, int velocityRight, int count = 1, int feedDelay = VELOCITY_SLOW, bool spinUp = true) {          
+    if (Led::ballCountFeedback() <= 0) {
+      DEBUGLN(F("No balls. Won't run"));
+      return;
+    }
+      
     DEBUG(F("Angle: "));
     DEBUGLN(angle);
     DEBUG(F("Relative velocities: "));
     DEBUG(velocityLeft);
     DEBUG(F(", "));
-    DEBUG(velocityRight);
-#endif
-    setFireSpeed(PIN_MOTOR_LEFT, velocityLeft);
-    setFireSpeed(PIN_MOTOR_RIGHT, velocityRight);
-
+    DEBUGLN(velocityRight);
+    
+    setFireSpeed(velocityLeft, velocityRight);
+    if (spinUp)
+      delay(MOTOR_SPINUP_TIME);
     setServo(PIN_SERVO_PLATFORM, angle);
 
     for(int i = 0; i < count; i++) {
       Bluetooth::listen(feedDelay);
       feed();
+      
       float velocity = Speedometer::measureVelocity();
-#ifndef NDEBUG
       DEBUG(F("Velocity: "));
       DEBUGLN(velocity);
-#endif
       char buf[32];
-      dtostrf(velocity, 8, 2, buf);
+      dtostrf(velocity, 4, 2, buf);
       Bluetooth::sendRaw(buf, strlen(buf));
-      delay(SERVO_TURN_TIME);
-      //Bluetooth::listen(SERVO_TURN_TIME);
+      
+      if (Led::ballCountFeedback() <= 0) {
+        DEBUGLN(F("Out of balls. Stopping"));
+        return;
+      }
+      
+      Bluetooth::listen(SERVO_TURN_TIME);
+      
       if (_stopMotors) {
-        _stopMotors = false;
+        DEBUGLN(F("Stopped training"));
         return;
       }
     }
   }
 
   
-  void fireDirection(enum DIRECTION direction, int count = 1, int feedDelay = VELOCITY_SLOW, int spin = 0){
+  void fireDirection(enum DIRECTION direction, int count = 1, int feedDelay = VELOCITY_SLOW, int spin = 0, bool spinUp = true){
     int velocity, angle;
 
     switch (direction) {
@@ -135,23 +139,35 @@ namespace Training {
         assert(0);
     }
 
-    int velocityLeft  = spin <= 0 ? velocity : 0;
-    int velocityRight = spin >= 0 ? velocity : 0;
+    int velL = velocity, velR = velocity;
+    if (spin < 0) {
+      velL /= 0.83;
+      velR *= 0.83;      
+    } else if (spin > 0) {
+      velL *= 0.83;
+      velR /= 0.83;
+    }
 
-    fire(angle, velocityLeft, velocityRight, count, feedDelay);
+    //velL = 100;
+    //velR = 255;
+
+    fire(angle, velL, velR, count, feedDelay, spinUp);
   }
   
-  void fireRandom(int count = 1, int feedDelay = VELOCITY_SLOW){
-    for(int i = 0; i <= count; i++)
-      fireDirection((enum DIRECTION)random(0,4), 1, feedDelay, random(-1,2));
+  void fireRandom(int count = 1, int feedDelay = VELOCITY_SLOW) {
+    fireDirection((enum DIRECTION)random(0,4), 1, feedDelay, random(-1,2), true);
+    for(int i = 1; i < count; i++)
+      fireDirection((enum DIRECTION)random(0,4), 1, feedDelay, random(-1,2), false);
     stopMotors();
   }
   
-  void fireLeftRight(int count = 2, int feedDelay = VELOCITY_SLOW){
-    for(int i = 0; i <= count; i++) {
-      fireDirection((enum DIRECTION)random(0,2), 1, feedDelay, random(-1,2));
-      fireDirection((enum DIRECTION)random(2,4), 1, feedDelay, random(-1,2));
+  void fireLeftRight(int count = 2, int feedDelay = VELOCITY_SLOW) {
+    fireDirection((enum DIRECTION)random(0,2), 1, feedDelay, random(-1,2), true);
+    for(int i = 1; i < count; i += 2) {
+      fireDirection((enum DIRECTION)random(2,4), 1, feedDelay, random(-1,2), false);
+      fireDirection((enum DIRECTION)random(0,2), 1, feedDelay, random(-1,2), false);
     }
+    fireDirection((enum DIRECTION)random(2,4), 1, feedDelay, random(-1,2), false);
     stopMotors();
   }
 }

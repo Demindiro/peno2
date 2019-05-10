@@ -14,15 +14,17 @@ namespace Speedometer {
 
     // The signal *should* go from high to low
     while (analogValue - analogRead(pin) < threshold) {
-
+      DEBUGLN(analogValue - analogRead(pin));
       if (micros() - start > SPEEDOMETER_TIMEOUT) {
         DEBUGLN(F("Timeout"));
         return -1;
       }
     }
-
+#ifndef NDEBUG
+    int lastVal = analogRead(pin);
     DEBUG(F("Last value: "));
-    DEBUGLN(analogRead(pin));
+    DEBUGLN(lastVal);
+#endif
     
     return micros();
   }
